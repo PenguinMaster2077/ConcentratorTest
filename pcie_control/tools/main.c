@@ -43,11 +43,11 @@ void read_data(int fd,int *c2h_align_mem,const char *file_name, int offset)
     printf("\n%s\n",file_name);
 }
 
-void *c2h_data_process(int fd_c2h,int fd_usr, int *c2h_align_mem)
+void *c2h_data_process(int fd_c2h,int fd_usr, int *c2h_align_mem, const char* file_path)
 {
     //读取的数据写文件
     char file[256];
-    char file_path[]="/home/tao/linux_pcie/data/JNE_LED_20241114/";
+    // char file_path[]=;
     char file_pack[]=".bin";
     sprintf(file,"%.100s%d%.30s",file_path,file_num,file_pack);
     int offset;
@@ -105,10 +105,12 @@ void *c2h_data_process(int fd_c2h,int fd_usr, int *c2h_align_mem)
 //    printf("%d\n",event_rd);
 }
 
-int main()
+int main(int argc, const char* argv[])
 {
+    printf("Begin to write %s file data to directory: %s", argv[1], argv[2])
     setbuf(stdout,NULL);
-    int File_NUM = 10;
+    int File_NUM = int(argv[1]);
+    const char* outputDir = argv[2];
 
     int fd_c2h = open("/dev/xdma0_c2h_0",O_RDWR);
     int fd_usr = open("/dev/xdma0_user",O_RDWR);
@@ -121,7 +123,7 @@ int main()
     while(1) {
         if (file_num < File_NUM) {
             int *c2h_align_mem = (int*)malloc(size);
-            c2h_data_process(fd_c2h,fd_usr,c2h_align_mem);
+            c2h_data_process(fd_c2h,fd_usr,c2h_align_mem, argv[2]);
             free(c2h_align_mem);
         } else {
             break;
