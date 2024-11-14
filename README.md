@@ -9,8 +9,29 @@
 
 # How to measure data:
 
-1.
-2.
-3.
-4.
+## Facility setting
++ A csv records the setting.
+  + runno
+  + filenum: estimate sample time duration
+  + angle
+  + distance
 
+## Readout
++ The code is under `pcie_control/tools`, compile and generate the executable `build/pcie_control`
+```shell
+# Compile using CMake
+mkdir -p build && cd build
+cmake ..
+make
+```
++ General configuration: `Makefile`
+  + data output path: `datadir` the data is stored in the path.
++ Sample as the administrator:
+```shell
+# check the sample setting
+make mock_sample
+# sample
+make sample
+```
+
+## Analysis
