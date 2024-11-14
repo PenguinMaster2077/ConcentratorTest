@@ -107,9 +107,9 @@ void *c2h_data_process(int fd_c2h,int fd_usr, int *c2h_align_mem, const char* fi
 
 int main(int argc, const char* argv[])
 {
-    printf("Begin to write %s file data to directory: %s", argv[1], argv[2])
+    printf("Begin to write %s file data to directory: %s", argv[1], argv[2]);
     setbuf(stdout,NULL);
-    int File_NUM = int(argv[1]);
+    int File_NUM = atoi(argv[1]);
     const char* outputDir = argv[2];
 
     int fd_c2h = open("/dev/xdma0_c2h_0",O_RDWR);
