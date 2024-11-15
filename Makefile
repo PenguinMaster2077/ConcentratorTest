@@ -17,9 +17,10 @@ sample: pcie_control/build/pcie_control config/setting.csv
 
 preview: $(datadir)/preview.pdf $(filenum_list:%=$(datadir)/%.pdf)
 $(datadir)/preview.pdf: $(filenum_list:%=$(datadir)/%.h5)
-	python3 converter/preview.py -i $^ -o $@
+	python3 converter/preview.py -i $^ -o $@ -N_ch $(N_ch)
 $(datadir)/%.h5: $(datadir)/%.bin
 	python3 converter/converter.py -i $^ -o $@ -N_ch $(N_ch) -N $(N_wave)
 $(datadir)/%.pdf: $(datadir)/%.h5
-	python3 converter/preview.py -i $^ -o $@ -N 100 --onlywave
+	python3 converter/preview.py -i $^ -o $@ -N 100 -Ns 2000 --onlywave
 
+.DELETE_ON_ERROR:
