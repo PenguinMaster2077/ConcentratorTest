@@ -3,13 +3,14 @@ transfer the binary data into hdf5
 '''
 
 class Reader():
-    def __init__(self, filename, N_ch, length=0):
+    def __init__(self, filename, N_ch, length=0, trig_length=4):
         self.filename = filename
-        self.file_data = np.memmap(filename, dtype='uint16', mode='r')
+        self.file_data = np.memmap(filename, dtype='int16', mode='r')
         # HEADER value
         self.HEADER, self.TAIL = 31354, 42919
-        self._N_ch = N_ch
+        self.N_ch = N_ch
         self.length = length
+        self.trig_length = 4
     def calculate_pack_indices(self, arr, header, tail, length=0):
         '''
         calculate_pack_indices calculates the pack indices of data in arr based on header and tail
@@ -18,11 +19,16 @@ class Reader():
         tail   : tail of data per trigger
         length : length of data per trigger
         '''
-        header_flag = (arr == header)
-        header_indices = np.where((np.diff(header_flag) == -1))[0]
+        self.header_flag = (arr == header)
+        header_flag_diff = np.diff(self.header_flag.astype(int))
+        header_indices = []
+        for i in np.where(header_flag_diff == -1)[0] + 1:# diff need +1 to set the true start
+            if np.sum(self.header_flag[(i-3):i])==3:
+                header_indices.append(i)
+        header_indices = np.array(header_indices)
         if length == 0:
-            tail_flag = (arr == tail)
-            tail_indices = np.where((np.diff(tail_flag) == 1))[0]
+            self.tail_flag = (arr == tail)
+            tail_indices = np.where((np.diff(self.tail_flag.astype(int)) == 1))[0]
         else:
             tail_indices = header_indices + length
         
@@ -37,8 +43,16 @@ class Reader():
         extract_data extracts data from arr based on header_indices and tail_indices
         arr            : numpy 1-d array that contains data from one board
         '''
-        header_indices, tail_indices, N_event = self.calculate_pack_indices(self.file_data, self.HEADER, self.TAIL, self.length * self.N_ch)
-        return self.file_data[header_indices:tail_indices].reshape(N_event, self.N_ch, -1)
+        self.header_indices, self.tail_indices, N_event = self.calculate_pack_indices(self.file_data, self.HEADER, self.TAIL, self.length * self.N_ch)
+        waveform = np.empty((N_event-2, self.length * self.N_ch), dtype='int16')
+        trig = np.empty((N_event-2, self.trig_length), dtype='int16')
+        # the order of the binary: [ch2, ch2, ch2, ch2, ch1, ch1, ch1, ch1, ch2...]
+        # TODO: -2
+        for i in range(N_event-2):
+            # TODO: /4
+            waveform[i] = self.file_data[self.header_indices[i]:self.tail_indices[i]] / 4
+            trig[i] = self.file_data[self.tail_indices[i]:(self.tail_indices[i]+4)]
+        return waveform.reshape(N_event-2, -1, self.N_ch, 4).transpose(0, 2, 1, 3).reshape(N_event-2, self.N_ch, -1), trig
     def close(self):
         self.file_data._mmap.close()
 
@@ -52,7 +66,8 @@ psr.add_argument('-N_ch', type=int, default=2, help='waveform length')
 args = psr.parse_args()
 
 reader = Reader(args.ipt, args.N_ch, args.N)
-waveform = reader.extract_data()
-reader.close()
+waveform, trig = reader.extract_data()
+#reader.close()
 with h5py.File(args.opt, 'w') as opt:
-    opt.create_dataset('waveform', data=waveform, compression='gzip')
+    opt.create_dataset('Readout/Waveform', data=waveform, compression='gzip')
+    opt.create_dataset('Readout/Triggerinfo', data=trig, compression='gzip')
