@@ -49,7 +49,7 @@ void *c2h_data_process(int fd_c2h,int fd_usr, int *c2h_align_mem, const char* fi
     char file[256];
     // char file_path[]=;
     char file_pack[]=".bin";
-    sprintf(file,"%.100s%d%.30s",file_path,file_num,file_pack);
+    sprintf(file,"%.100s/%d%.30s",file_path,file_num,file_pack);
     int offset;
 
     //read restart
@@ -123,13 +123,13 @@ int main(int argc, const char* argv[])
     while(1) {
         if (file_num < File_NUM) {
             int *c2h_align_mem = (int*)malloc(size);
-            c2h_data_process(fd_c2h,fd_usr,c2h_align_mem, argv[2]);
+            c2h_data_process(fd_c2h,fd_usr,c2h_align_mem, outputDir);
             free(c2h_align_mem);
         } else {
             break;
         }
     }
-    printf ("\nWrite done! %d files",file_num);
+    printf ("\nWrite done! %d files\n",file_num);
 
 
 
