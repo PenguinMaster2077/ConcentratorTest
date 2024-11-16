@@ -1,7 +1,7 @@
 .PHONY: all
 setting_csv:=config/setting.csv
-runno=$(shell awk -F, 'END {print$$1}' $(setting_csv))
-filenum=$(shell awk -F, 'END {print$$2}' $(setting_csv))
+runno?=$(shell awk -F, 'END {print$$1}' $(setting_csv))
+filenum?=$(shell awk -F, 'END {print$$2}' $(setting_csv))
 filenum_list=$(shell seq 0 $$(($(filenum)-1)))
 N_wave:=1000
 N_ch:=2
