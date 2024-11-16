@@ -73,15 +73,24 @@ with PdfPages(args.opt) as pdf:
     ax.set_yscale('log')
     ax.set_xlabel('t')
     ax.set_ylabel('entries')
+    ax.set_title('peak pos (peak>3mV)')
     ax.legend()
     pdf.savefig(fig)
 
     fig, ax = plt.subplots()
+    res_text = 'Total entries:{}\n'.format(waves.shape[0])
     for j in range(N_ch):
-        ax.hist(res[:, j]['peakPos'][res[:, j]['peak']>30], bins=300, range=[120, 920], histtype='step', label=f'ch{j}')
+        h = ax.hist(res[:, j]['peakPos'][res[:, j]['peak']>30], bins=300, range=[120, 920], histtype='step', label=f'ch{j}')
+        pedestal = np.sum(h[0][-100:])
+        signal = np.sum(h[0][:100])
+        darkRate = pedestal/100/3/waves.shape[0]*1E6
+        res_text += 'ch{} signal entries:{}, ratio{:.2f}, darkRate:{:.2f}kHz\n'.format(j, signal-pedestal, (signal-pedestal)/waves.shape[0], darkRate)
     ax.set_yscale('log')
     ax.set_xlabel('t')
     ax.set_ylabel('entries')
+    ax.set_title('peak pos (peak>3mV)')
+    print(res_text)
+    ax.text(0, 0.9, res_text, transform=ax.transAxes, fontsize=5)
     ax.legend()
     pdf.savefig(fig)
 
