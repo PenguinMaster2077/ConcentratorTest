@@ -79,11 +79,14 @@ with PdfPages(args.opt) as pdf:
 
     fig, ax = plt.subplots()
     res_text = 'Total entries:{}\n'.format(waves.shape[0])
+    binwidth, ranges = 3, [120, 990] # choose 3ns as binwidth, range (120, 990)
+    bins = int((ranges[1] - ranges[0]) / binwidth)
     for j in range(N_ch):
-        h = ax.hist(res[:, j]['peakPos'][res[:, j]['peak']>30], bins=300, range=[120, 920], histtype='step', label=f'ch{j}')
+        h = ax.hist(res[:, j]['peakPos'][res[:, j]['peak']>30], bins=bins, range=ranges, histtype='step', label=f'ch{j}')
+        # choose 300ns window
         pedestal = np.sum(h[0][-100:])
         signal = np.sum(h[0][:100])
-        darkRate = pedestal/100/3/waves.shape[0]*1E6
+        darkRate = pedestal / 300 / waves.shape[0]*1E6
         res_text += 'ch{} signal entries:{}, ratio{:.2f}, darkRate:{:.2f}kHz\n'.format(j, signal-pedestal, (signal-pedestal)/waves.shape[0], darkRate)
     ax.set_yscale('log')
     ax.set_xlabel('t')
