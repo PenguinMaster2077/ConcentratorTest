@@ -2,6 +2,17 @@
 preview the data
 '''
 import h5py
+from scipy.optimize import minimize
+def Lgaussian(x0, A):
+    mu, sigma = x0
+    return np.sum(((A - mu) / sigma) ** 2) + A.shape[0] * np.log(sigma)
+def gausfit(x0, args, bounds):
+    return minimize(
+            Lgaussian,
+            x0=x0,
+            args=args,
+            bounds=bounds,
+        )
 def loadH5(f):
     print(f'load file {f}')
     with h5py.File(f, 'r') as ipt:
@@ -10,6 +21,7 @@ def loadH5(f):
 import argparse
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
+from tqdm import tqdm
 import numpy as np
 psr = argparse.ArgumentParser()
 psr.add_argument('-i', dest='ipt', nargs='+', help='input files')
@@ -51,43 +63,64 @@ if args.onlywave:
         pdf.savefig(fig)
         plt.close()
     exit(0)
-res = np.empty((waves.shape[0], N_ch), dtype=[('eid', np.int32), ('Q', np.float64), ('baseline', np.float64), ('peak', np.float64), ('peakPos', np.int32)])
+res = np.empty((waves.shape[0], N_ch), dtype=[('eid', np.int32), ('Q', np.float64), ('baseline', np.float64), ('baseline_std', np.float64), ('peak', np.float64), ('peakPos', np.int32)])
 
-# omit the first 100ns, which is used as baseline
+# settings for preview
+## rough baseline estimation window. pre_l=100: the first 100ns, which is used as the initial value of baseline
+## w_l, w_r the charge integration window[t_p-w_l, t_p+w_r]
 pre_l, w_l, w_r = 100, 20, 70
-for i, ws in enumerate(waves):
+## hist for the selection range
+binwidth, ranges = 2, [0, 1000] # choose 3ns as binwidth, range (0, 1000)ns
+bins = int((ranges[1] - ranges[0]) / binwidth)
+
+## signal window
+signal_ranges = [240, 540]
+signal_index = [signal_ranges[0]//binwidth, signal_ranges[1]//binwidth]
+## darknoise window
+noise_ranges = [0, 240]
+noise_index = [noise_ranges[0]//binwidth, noise_ranges[1]//binwidth]
+print('range: {}, binwidth: {}, entries: {}'.format(ranges, binwidth, waves.shape[0]))
+print('total range: {}; signal range: {}, darknoise range: {}'.format(ranges, signal_ranges, noise_ranges))
+print('total range index: {}; signal range index: {}, darknoise range index: {}'.format([ranges[0]//binwidth, ranges[1]//binwidth], signal_index, noise_index))
+for i, ws in tqdm(enumerate(waves)):
     for j in range(N_ch):
         if j==1:
             w = -ws[j]
         else:
             w = ws[j]
-        baseline = np.mean(w[:pre_l])
-        peakPos = np.argmin(w[pre_l:]) + pre_l
+        baseline_rough, baseline_std_rough = np.mean(w[:pre_l]), np.std(w[:pre_l])
+        # estimate the baseline use the guass fit
+        x = gausfit(x0=[baseline_rough, baseline_std_rough],
+            args=w[w>(baseline_rough - 10*baseline_std_rough)],
+            bounds=[
+                (baseline_rough - 10 * baseline_std_rough, baseline_rough + 10 * baseline_std_rough),
+                (0.001, 3 * baseline_std_rough),
+            ])
+        baseline_rough, baseline_std_rough = x.x
+        # re-estimate the baseline use the guass fit with cutting waveform
+        x = gausfit(x0=[baseline_rough, baseline_std_rough],
+            args=w[w>(baseline_rough - 10*baseline_std_rough)],
+            bounds=[
+                (baseline_rough - 10 * baseline_std_rough, baseline_rough + 10 * baseline_std_rough),
+                (0.001, 3 * baseline_std_rough),
+            ])
+        baseline, baseline_std = x.x
+        # calculate the peak position, peak height, charge
+        peakPos = np.argmin(w[:])
         peak = baseline - w[peakPos]
-        Q = np.sum(baseline - w[(peakPos-w_l):(peakPos+w_r)])
-        res[i, j] = (i, Q, baseline, peak, peakPos)
+        Q = np.sum(baseline - w[np.max([peakPos-w_l, 0]):np.min([peakPos+w_r, w.shape[0]])])
+        res[i, j] = (i, Q, baseline, baseline_std, peak, peakPos)
 with PdfPages(args.opt) as pdf:
     fig, ax = plt.subplots()
-    for j in range(N_ch):
-        ax.hist(res[:, j]['peakPos'][res[:, j]['peak']>30], bins=1000, range=[0, 1000], histtype='step', label=f'ch{j}')
-    ax.set_yscale('log')
-    ax.set_xlabel('t')
-    ax.set_ylabel('entries')
-    ax.set_title('peak pos (peak>3mV)')
-    ax.legend()
-    pdf.savefig(fig)
-
-    fig, ax = plt.subplots()
     res_text = 'Total entries:{}\n'.format(waves.shape[0])
-    binwidth, ranges = 3, [120, 990] # choose 3ns as binwidth, range (120, 990)
-    bins = int((ranges[1] - ranges[0]) / binwidth)
     for j in range(N_ch):
         h = ax.hist(res[:, j]['peakPos'][res[:, j]['peak']>30], bins=bins, range=ranges, histtype='step', label=f'ch{j}')
         # choose 300ns window
-        pedestal = np.sum(h[0][-100:])
-        signal = np.sum(h[0][:100])
-        darkRate = pedestal / 300 / waves.shape[0]*1E6
-        res_text += 'ch{} signal entries:{}, ratio{:.2f}, darkRate:{:.2f}kHz\n'.format(j, signal-pedestal, (signal-pedestal)/waves.shape[0], darkRate)
+        pedestal = np.sum(h[0][noise_index[0]:noise_index[1]])
+        signal = np.sum(h[0][signal_index[0]:signal_index[1]])
+        darkRate = pedestal / (noise_ranges[1] - noise_ranges[0]) / waves.shape[0]*1E6
+        signal_num = signal - pedestal / (noise_ranges[1] - noise_ranges[0]) * (signal_ranges[1] - signal_ranges[0])
+        res_text += 'ch{} signal entries:{}, ratio{:.2f}, darkRate:{:.2f}kHz\n'.format(j, signal-pedestal, signal_num/waves.shape[0], darkRate)
     ax.set_yscale('log')
     ax.set_xlabel('t')
     ax.set_ylabel('entries')
