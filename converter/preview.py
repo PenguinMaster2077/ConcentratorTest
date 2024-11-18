@@ -30,6 +30,7 @@ psr.add_argument('-N_ch', type=int, help='number of channels')
 psr.add_argument('-N', type=int, help='maximum number of waves')
 psr.add_argument('-Ns', type=int, help='number of overlap the waves')
 psr.add_argument('--onlywave', action='store_true', default=False, help='only plot the waves without the simple analysis')
+psr.add_argument('--quick', action='store_true', default=False, help='if use fitting method for the baseline')
 args = psr.parse_args()
 
 waves = np.concatenate([loadH5(f) for f in args.ipt])
@@ -82,29 +83,33 @@ noise_index = [noise_ranges[0]//binwidth, noise_ranges[1]//binwidth]
 print('range: {}, binwidth: {}, entries: {}'.format(ranges, binwidth, waves.shape[0]))
 print('total range: {}; signal range: {}, darknoise range: {}'.format(ranges, signal_ranges, noise_ranges))
 print('total range index: {}; signal range index: {}, darknoise range index: {}'.format([ranges[0]//binwidth, ranges[1]//binwidth], signal_index, noise_index))
-for i, ws in tqdm(enumerate(waves)):
+for i in tqdm(range(waves.shape[0])):
+    ws = waves[i]
     for j in range(N_ch):
         if j==1:
             w = -ws[j]
         else:
             w = ws[j]
         baseline_rough, baseline_std_rough = np.mean(w[:pre_l]), np.std(w[:pre_l])
-        # estimate the baseline use the guass fit
-        x = gausfit(x0=[baseline_rough, baseline_std_rough],
-            args=w[w>(baseline_rough - 10*baseline_std_rough)],
-            bounds=[
-                (baseline_rough - 10 * baseline_std_rough, baseline_rough + 10 * baseline_std_rough),
-                (0.001, 3 * baseline_std_rough),
-            ])
-        baseline_rough, baseline_std_rough = x.x
-        # re-estimate the baseline use the guass fit with cutting waveform
-        x = gausfit(x0=[baseline_rough, baseline_std_rough],
-            args=w[w>(baseline_rough - 10*baseline_std_rough)],
-            bounds=[
-                (baseline_rough - 10 * baseline_std_rough, baseline_rough + 10 * baseline_std_rough),
-                (0.001, 3 * baseline_std_rough),
-            ])
-        baseline, baseline_std = x.x
+        if args.quick:
+            baseline, baseline_std = baseline_rough, baseline_std_rough
+        else:
+            # estimate the baseline use the guass fit
+            x = gausfit(x0=[baseline_rough, baseline_std_rough],
+                args=w[w>(baseline_rough - 10*baseline_std_rough)],
+                bounds=[
+                    (baseline_rough - 10 * baseline_std_rough, baseline_rough + 10 * baseline_std_rough),
+                    (0.001, 3 * baseline_std_rough),
+                ])
+            baseline_rough, baseline_std_rough = x.x
+            # re-estimate the baseline use the guass fit with cutting waveform
+            x = gausfit(x0=[baseline_rough, baseline_std_rough],
+                args=w[w>(baseline_rough - 10*baseline_std_rough)],
+                bounds=[
+                    (baseline_rough - 5 * baseline_std_rough, baseline_rough + 5 * baseline_std_rough),
+                    (0.001, 3 * baseline_std_rough),
+                ])
+            baseline, baseline_std = x.x
         # calculate the peak position, peak height, charge
         peakPos = np.argmin(w[:])
         peak = baseline - w[peakPos]
