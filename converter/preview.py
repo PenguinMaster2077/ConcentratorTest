@@ -75,10 +75,12 @@ binwidth, ranges = 2, [0, 1000] # choose 3ns as binwidth, range (0, 1000)ns
 bins = int((ranges[1] - ranges[0]) / binwidth)
 
 ## signal window
-signal_ranges = [240, 540]
+signal_ranges = [400,800] # for 365nm
+#signal_ranges = [240,540] # for 415nm
+#signal_ranges = [300, 750] # for 465, 480 nm
 signal_index = [signal_ranges[0]//binwidth, signal_ranges[1]//binwidth]
 ## darknoise window
-noise_ranges = [0, 240]
+noise_ranges = [40, 240] # [0,240] from aiqiang
 noise_index = [noise_ranges[0]//binwidth, noise_ranges[1]//binwidth]
 print('range: {}, binwidth: {}, entries: {}'.format(ranges, binwidth, waves.shape[0]))
 print('total range: {}; signal range: {}, darknoise range: {}'.format(ranges, signal_ranges, noise_ranges))
@@ -125,7 +127,13 @@ with PdfPages(args.opt) as pdf:
         signal = np.sum(h[0][signal_index[0]:signal_index[1]])
         darkRate = pedestal / (noise_ranges[1] - noise_ranges[0]) / waves.shape[0]*1E6
         signal_num = signal - pedestal / (noise_ranges[1] - noise_ranges[0]) * (signal_ranges[1] - signal_ranges[0])
-        res_text += 'ch{} signal entries:{}, ratio{:.2f}, darkRate:{:.2f}kHz\n'.format(j, signal-pedestal, signal_num/waves.shape[0], darkRate)
+        part1=np.sqrt(pedestal) / (noise_ranges[1] - noise_ranges[0]) * (signal_ranges[1] - signal_ranges[0])
+        signal_num_error= np.sqrt(signal +part1*part1)
+        trigger_ratio=signal_num/waves.shape[0]
+        trigger_ratio_error=signal_num_error/waves.shape[0]
+        #res_text += 'ch{} signal entries:{}, ratio{:.4f}, darkRate:{:.4f}kHz\n'.format(j, signal-pedestal, signal_num/waves.shape[0], darkRate)
+        lam = -np.log(1-trigger_ratio)
+        res_text += 'ch{} signal entries:{},signal error:{:.2f}, ratio{:.4f}, ratio err{:.4f}, lambda{:.2f}, darkRate:{:.4f}kHz\n'.format(j, signal_num, signal_num_error, trigger_ratio,trigger_ratio_error,lam,darkRate)
     ax.set_yscale('log')
     ax.set_xlabel('t')
     ax.set_ylabel('entries')
