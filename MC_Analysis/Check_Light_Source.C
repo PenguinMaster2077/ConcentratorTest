@@ -12,7 +12,7 @@
 
 int Check_Light_Source()
 {
-    std::string File_Path = "/home/penguin/Jinping/JSAP-install/Simulation/test.root";
+    std::string File_Path = "/home/penguin/Jinping/JSAP-install/Simulation/test_1000k_0.root";
     // Open the file
     TFile *file = new TFile(File_Path.c_str());
     TTree *sim_truth = (TTree*) file->Get("SimTruth");

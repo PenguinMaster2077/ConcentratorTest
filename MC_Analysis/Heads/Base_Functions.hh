@@ -95,7 +95,30 @@ std::vector<std::string> Collect_Info(std::string Name)
      
     // Output
     return Head_Info;
-}
+};
+
+std::vector<std::string> Collect_Info_Parallel_Light(std::string Name)
+{
+    std::vector<std::string> Head_Info;
+
+    std::vector<size_t> positions;
+    size_t pos = Name.find('_');  // 查找第一个'_'的位置
+    
+    while (pos != std::string::npos) {
+        positions.push_back(pos);
+        pos = Name.find('_', pos + 1);  // 查找下一个'_'的位置
+    };
+    
+    // Get Infos
+    std::string LED = Name.substr(positions.at(1) + 1, positions.at(2) - positions.at(1) - 1);
+    std::string Angle = Name.substr(positions.at(2) + 1);
+    // Record
+    Head_Info.push_back(Angle);
+    Head_Info.push_back(LED);
+     
+    // Output
+    return Head_Info;
+};
 
 TVector3 Compute_Direction(Int_t index_1, Int_t index_2, std::vector<JPSimStepPoint_t> &steps)
 {
@@ -125,15 +148,21 @@ Double_t Compute_Reflectivity(Double_t CosTheta, Int_t Wavelength)
     Double_t Coeff[len];
     if (Wavelength == 365)
     {
-        Double_t temp[len] = {0.635511, 1.3213, 11.4057, -141.02, 510.633, -894.518, 821.959, -373.898, 64.1082};
+        // V1
+        // Double_t temp[len] = {0.635511, 1.3213, 11.4057, -141.02, 510.633, -894.518, 821.959, -373.898, 64.1082};
+        // V2
+        Double_t temp[len] = {0.999615, -0.105384, -20.4856, 161.798, -619.573, 1321.3, -1584.27, 996.778, -255.826};
         for (int i = 0; i < len; ++i) 
         {
             Coeff[i] = temp[i];
         };
     }
     else if (Wavelength == 415)
-    {
-        Double_t temp[len] = {0.618318, 1.44372, 13.4798, -157.288, 570.585, -1014.39, 953.135, -447.451, 80.558};
+    {   
+        // V1
+        // Double_t temp[len] = {0.618318, 1.44372, 13.4798, -157.288, 570.585, -1014.39, 953.135, -447.451, 80.558};
+        // V2
+        Double_t temp[len] = {0.999615, -0.0503395, -19.9174, 159.83, -612.991, 1306.06, -1566.72, 987.952, -254.484};
         for (int i = 0; i < len; ++i) 
         {
             Coeff[i] = temp[i];
@@ -141,7 +170,10 @@ Double_t Compute_Reflectivity(Double_t CosTheta, Int_t Wavelength)
     }
     else if (Wavelength == 465)
     {
-        Double_t temp[len] = {0.590706, 1.51497, 16.232, -185.54, 690.941, -1279.71, 1271.88, -645.97, 130.796};
+        // V1
+        // Double_t temp[len] = {0.590706, 1.51497, 16.232, -185.54, 690.941, -1279.71, 1271.88, -645.97, 130.796};
+        // V2
+        Double_t temp[len] = {0.999667, -0.0874831, -19.5882, 154.585, -578.502, 1209.1, -1430.79, 893.571, -228.554};
         for (int i = 0; i < len; ++i) 
         {
             Coeff[i] = temp[i];
@@ -149,7 +181,10 @@ Double_t Compute_Reflectivity(Double_t CosTheta, Int_t Wavelength)
     }
     else if (Wavelength == 480)
     {
-        Double_t temp[len] = {0.644193, 1.62353, 4.96658, -87.6911, 313.736, -498.037, 368.978, -98.287, -5.1999};
+        // V1
+        // Double_t temp[len] = {0.644193, 1.62353, 4.96658, -87.6911, 313.736, -498.037, 368.978, -98.287, -5.1999};
+        // V2
+        Double_t temp[len] = {0.99953, 0.231196, -26.1568, 207.836, -789.255, 1664.43, -1979.31, 1239.39, -317.431};
         for (int i = 0; i < len; ++i) 
         {
             Coeff[i] = temp[i];

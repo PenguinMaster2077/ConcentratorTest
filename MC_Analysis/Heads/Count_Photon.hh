@@ -8,6 +8,7 @@
 #include <TTree.h>
 #include <TVector3.h>
 #include <TH1D.h>
+#include <TH2D.h>
 #include <TCanvas.h>
 #include <TLegend.h>
 //JSAP
@@ -38,6 +39,7 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     TH1D *hist_incident_1 = new TH1D("", "Ref_1_Incident_Cos", 20, -1, 1);
     TH1D *hist_incident_2_1 = new TH1D("", "Ref_2_First_Incident_Cos", 20, -1, 1);
     TH1D *hist_incident_2_2 = new TH1D("", "Ref_2_Second_Incident_Cos", 20, -1, 1);
+    TH2D *hist_x_y = new TH2D("", "X_Y", 2000, -1000, 1000, 2000, -1000, 1000);
     Double_t radius, y_component;
     Double_t PMT_X, PMT_Y, PMT_Z, PMT_Len;
     Double_t PMT_Cir_X, PMT_Cir_Y, PMT_Cir_Z;
@@ -90,11 +92,12 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
             hist_radius_complete->Fill(radius);
             // Selection criteria:
             if (y_component < 0 || y_component > PMT_Len){continue;} // Skip the photon that doesn't hit Test PMT
-            if (radius > 105) {continue;};
+            if (radius > 105) {continue;}; // PMT最大半径为103mm，如果比105还大就直接排除
             // Count Y component and radius distribution of PMT
             hist_y->Fill(y_component);
             hist_radius->Fill(radius);
             hist_steps->Fill(steps.size());
+            hist_x_y->Fill(end.fX, end.fY);
             // Count Photons
             if (steps.size() == 4)
             {
@@ -208,7 +211,10 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     hist_y->GetXaxis()->CenterTitle(1);
     hist_y->GetYaxis()->CenterTitle(1);
     hist_y->Draw();
-    canvas->SaveAs(Pic_Path.c_str());
+    if(Pic_Dir != "0")
+    {
+        canvas->SaveAs(Pic_Path.c_str());
+    }
     canvas->Close();
 
     delete canvas;
@@ -220,7 +226,7 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     }
     else if(PMT == 1 || PMT == 2)
     {
-        Title = "Test: Relative Relative Radius";
+        Title = "Test: Relative Radius";
         Pic_Path = Pic_Dir + "/" + strings + "_Test_Radius.jpg";
     };
     canvas = new TCanvas("canvas", "canvas", 800, 600);
@@ -230,7 +236,10 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     hist_radius->GetXaxis()->CenterTitle(1);
     hist_radius->GetYaxis()->CenterTitle(1);
     hist_radius->Draw();
-    canvas->SaveAs(Pic_Path.c_str());
+    if(Pic_Dir != "0")
+    {
+        canvas->SaveAs(Pic_Path.c_str());
+    }
     canvas->Close();
 
     delete canvas;
@@ -252,7 +261,10 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     hist_y_complete->GetXaxis()->CenterTitle(1);
     hist_y_complete->GetYaxis()->CenterTitle(1);
     hist_y_complete->Draw();
-    canvas->SaveAs(Pic_Path.c_str());
+    if(Pic_Dir != "0")
+    {
+        canvas->SaveAs(Pic_Path.c_str());
+    }
     canvas->Close();
 
     delete canvas;
@@ -274,7 +286,10 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     hist_radius_complete->GetXaxis()->CenterTitle(1);
     hist_radius_complete->GetYaxis()->CenterTitle(1);
     hist_radius_complete->Draw();
-    canvas->SaveAs(Pic_Path.c_str());
+    if(Pic_Dir != "0")
+    {
+        canvas->SaveAs(Pic_Path.c_str());
+    }
     canvas->Close();
 
     // Steps
@@ -298,7 +313,10 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     hist_steps->GetYaxis()->CenterTitle(1);
     canvas->SetLogy();
     hist_steps->Draw();
-    canvas->SaveAs(Pic_Path.c_str());
+    if(Pic_Dir != "0")
+    {
+        canvas->SaveAs(Pic_Path.c_str());
+    }
     canvas->Close();
 
     // One Reflection
@@ -314,7 +332,6 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
         Title = "Test: Incident Angle Distribution of One Ref";
         Pic_Path = Pic_Dir + "/" + strings + "_Test_One_Ref.jpg";
     };
-    std::cout << Pic_Path << std::endl;
     canvas = new TCanvas("canvas", "canvas", 800, 600);
     hist_incident_1->SetTitle(Title.c_str());
     hist_incident_1->SetXTitle("Cos#theta");
@@ -322,7 +339,10 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     hist_incident_1->GetXaxis()->CenterTitle(1);
     hist_incident_1->GetYaxis()->CenterTitle(1);
     hist_incident_1->Draw();
-    canvas->SaveAs(Pic_Path.c_str());
+    if(Pic_Dir != "0")
+    {
+        canvas->SaveAs(Pic_Path.c_str());
+    }
     canvas->Close();
 
     // Two Reflection
@@ -354,7 +374,34 @@ Double_t Count_PMT_Photon(Int_t PMT, std::string File_Path, std::string Pic_Dir,
     legend->AddEntry(hist_incident_2_1, "Fist", "l");
     legend->AddEntry(hist_incident_2_2, "Second", "l");
     legend->Draw();
-    canvas->SaveAs(Pic_Path.c_str());
+    if(Pic_Dir != "0")
+    {
+        canvas->SaveAs(Pic_Path.c_str());
+    }
+    canvas->Close();
+    // X_Y
+    if(PMT == 0)
+    {
+        Title = "Cali: X_Y Component";
+        Pic_Path = Pic_Dir + "/" + strings + "_Cali_X_Y.jpg";
+    }
+    else if(PMT == 1 || PMT == 2)
+    {
+        Title = "Test: X_Y Component";
+        Pic_Path = Pic_Dir + "/" + strings + "_Test_X_Y.jpg";
+    };
+    
+    canvas = new TCanvas("canvas", "canvas", 800, 600);
+    hist_x_y->SetTitle(Title.c_str());
+    hist_x_y->SetXTitle("X/mm");
+    hist_x_y->SetYTitle("Y/mm");
+    hist_x_y->GetXaxis()->CenterTitle(1);
+    hist_x_y->GetYaxis()->CenterTitle(1);
+    hist_x_y->Draw("COLZ");
+    if(Pic_Dir != "0")
+    {
+        canvas->SaveAs(Pic_Path.c_str());
+    }
     canvas->Close();
 
 // 释放内存
@@ -381,7 +428,7 @@ void Count_Photon_Con(Int_t &Num_Cali, Int_t &Num_Test, Double_t &Ratio, std::st
     Ratio = 1.0 * Num_Test / Num_Cali;
 };
 
-void Count_Photon_All(std::string File_Dir, std::string Pic_Dir, std::string CSV_File, std::string concentrator, Int_t Wavelength)
+void Count_Photon_All(std::string File_Dir, std::string Pic_Dir, std::string CSV_File, std::string concentrator, Int_t Wavelength, Int_t Distance)
 {
     // Paths of Files, Pics and CSV Files
     // std::string File, File_Dir, File_Path, Pic_Dir, CSV_File;
@@ -429,7 +476,7 @@ void Count_Photon_All(std::string File_Dir, std::string Pic_Dir, std::string CSV
         // Compute Error
         Num_Test_Error = sqrt(Num_Test);
         Num_Cali_Error = sqrt(Num_Cali);
-        Ratio_Error = sqrt( pow(Num_Test_Error / Num_Test, 2) + pow(Num_Cali_Error / Num_Cali, 2));
+        Ratio_Error = (1.0 * Num_Test / Num_Cali) * sqrt( pow(Num_Test_Error / Num_Test, 2) + pow(Num_Cali_Error / Num_Cali, 2));
         
         // Record Photons
         res = res + "," + std::to_string(Num_Test) + "," + std::to_string(Num_Test_Error) + ",";
@@ -437,7 +484,11 @@ void Count_Photon_All(std::string File_Dir, std::string Pic_Dir, std::string CSV
         res = res + std::to_string(Ratio) + "," + std::to_string(Ratio_Error);
         
         // Writting in CSV File
-        if(head_info.at(0) == "90")
+        if(head_info.at(0) == "90" && Distance == 1)
+        {
+            csv_file << res;
+        }
+        else if(head_info.at(0) == "85" && Distance == 2)
         {
             csv_file << res;
         }
