@@ -111,18 +111,15 @@ def Rough_Analysis(file_path, wavelength, verbose):
             time_range = [500, 750]
         elif wavelength == 415:
             time_range = [250, 400]
-        elif wavelength == 465 or wavelength == 480:
+        else:
             time_range = [300, 700]
-        elif wavelength == 0:
-            time_range = [800, 900]
-        filtered_peak_time_array_all_range = filtered_peak_time_array
+            
         filtered_peak_time_array = filtered_peak_time_array[(filtered_peak_time_array > time_range[0]) & (filtered_peak_time_array < time_range[1])]
         rough_mean = np.mean(filtered_peak_time_array)
         rough_sigma = np.std(filtered_peak_time_array)
         bounds=[(rough_mean - 3 * rough_sigma, rough_mean + 3 * rough_sigma), (0.001, 5 * rough_sigma)]
         res = gausfit(x0=[rough_mean, rough_sigma], args=filtered_peak_time_array, bounds=bounds)
-        signal_fitted_mean, signal_fitted_sigma = res.x        
-        
+        signal_fitted_mean, signal_fitted_sigma = res.x
         # # 记录
         rough_res.append(baseline_fitted_mean)
         rough_res.append(baseline_fitted_sigma)
@@ -137,7 +134,7 @@ def Rough_Analysis(file_path, wavelength, verbose):
                 bounds = [390, 410]
             else:
                 bounds = [480, 500]
-            plt.figure(figsize = (10, 8))
+            plt.figure(figsize = (8, 6))
             plt.hist(baseline, histtype='step', bins=100, range=bounds)
             plt.axvline(x=baseline_fitted_mean, color='red', linestyle='--', label=f'Fitted mean')
             plt.text(
@@ -156,14 +153,13 @@ def Rough_Analysis(file_path, wavelength, verbose):
             if verbose[1]==1:
                 plt.show()
             if verbose[2]==1:
-                Pic_Path = verbose[3] + f"_Rough_Baseline_Distribution_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi=500)
+                plt.savefig(verbose[3] + f"_Rough_Baseline_Distribution_ch{channel}.jpg")
                 print(f"[Rough_Analysis] Save Baseline Distribution of ch{channel}")
             plt.close()
             
             # # Peak Amplitude Distribution
             bounds= [0, 1000]
-            plt.figure(figsize=(10, 8))
+            plt.figure(figsize=(8,6))
             plt.hist(peak_am_array, histtype='step', bins=1000, range=bounds)
             plt.text(
                 x=bounds[1] - (bounds[1] - bounds[0]) * 0.05,
@@ -176,23 +172,22 @@ def Rough_Analysis(file_path, wavelength, verbose):
             )
             plt.axvline(x=pedestal_cut, color='red', linestyle='--', linewidth=1.5, label=f'pedestal cut')
             plt.title(f"Peak Amplitude Distribution of ch{channel}")
-            plt.xlabel("Amplitude/ADC")
+            plt.xlabel("Peak/ADC")
             plt.ylabel("Entries")
             plt.yscale('log')
             plt.legend()
             if verbose[1]==1:
                 plt.show()
             if verbose[2]==1:
-                Pic_Path = verbose[3] + f"_Rough_Peak_Amplitude_Distribution_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi = 500)
+                plt.savefig(verbose[3] + f"_Rough_Peak_Amplitude_Distribution_ch{channel}.jpg")
                 print(f"[Rough_Analysis] Save Peak Amplitude Distribution of ch{channel}")
             plt.close()
             
             # # Peak Time Distribution
             bounds=[0, 1000]
-            plt.figure(figsize=(10, 8))
+            plt.figure(figsize=(8, 6))
             plt.hist(peak_time_array, histtype='step', bins=500, range=bounds)
-            plt.axvline(x=signal_fitted_mean, color='red', linestyle='--', linewidth=1.5, label=f'Fitted mean')
+            plt.axvline(x=signal_fitted_mean, color='red', linestyle='--', linewidth=1.5, label=f'fitted mean')
             plt.axvspan(np.min(filtered_peak_time_array), np.max(filtered_peak_time_array), color='green', alpha=0.3, label=f'Filted data')
             plt.text(
                 x=bounds[1] - (bounds[1] - bounds[0]) * 0.05,
@@ -206,49 +201,19 @@ def Rough_Analysis(file_path, wavelength, verbose):
             plt.title(f"Peak Time Distritbution of ch{channel}")
             plt.xlabel("t/ns")
             plt.ylabel("Entries")
-            plt.yscale('log')
             plt.legend()
             if verbose[1]==1:
                 plt.show()
             if verbose[2]==1:
-                Pic_Path = verbose[3] + f"_Rough_Peak_Time_Distribution_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi=500)
+                plt.savefig(verbose[3] + f"_Rough_Peak_Time_Distribution_ch{channel}.jpg")
                 print(f"[Rough_Analysis] Save Peak Time Distribution of ch{channel}")
-            plt.close()
-            
-            # # Filted Time Distribution All Range
-            bounds=[1, 1000]
-            plt.figure(figsize=(10, 8))
-            plt.hist(filtered_peak_time_array_all_range, histtype='step', bins=500, range=bounds)
-            plt.axvline(x=signal_fitted_mean, color='red', linestyle='--', linewidth=1.5, label=f"Fitted mean")
-            plt.axvspan(np.min(filtered_peak_time_array), np.max(filtered_peak_time_array), color='green', alpha=0.3, label=f'Fitted range')
-            # plt.text(
-            #     x=bounds[1] - (bounds[1] - bounds[0]) * 0.05,
-            #     y=plt.gca().get_ylim()[1] * 0.9,
-            #     s=f'Fitted mean:{signal_fitted_mean}\nFitted sigma:{signal_fitted_sigma}\nSelected range:{int(np.min(filtered_peak_time_array)), int(np.max(filtered_peak_time_array))}',
-            #     ha='right',
-            #     va='top',
-            #     fontsize=12,
-            #     bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-            # )
-            # plt.title(f"Peak Time Distribution after Pedestal Cut of ch{channel}")
-            plt.xlabel("t/ns")
-            plt.ylabel("Entries")
-            plt.yscale('log')
-            plt.legend()
-            if verbose[1] == 1:
-                plt.show()
-            if verbose[2] == 1:
-                Pic_Path = verbose[3] + f"_Rough_Peak_Time_Distribution_All_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi=500)
-                print(f"[Rough_Analysis] Save Peakt Time All Range Distribution of ch{channel}")
             plt.close()
             
             # # Signal Time Distribution
             bounds=[np.min(filtered_peak_time_array), np.max(filtered_peak_time_array)]
-            plt.figure(figsize=(10, 8))
+            plt.figure(figsize=(8, 6))
             plt.hist(filtered_peak_time_array, histtype='step', bins = int((bounds[1] - bounds[0])/2), range=bounds)
-            plt.axvline(x= signal_fitted_mean, color='red', linestyle='--', linewidth=1.5, label=f'Fitted mean')
+            plt.axvline(x= signal_fitted_mean, color='red', linestyle='--', linewidth=1.5, label=f'fitted mean')
             plt.axvspan(xmin= signal_fitted_mean - 3 * signal_fitted_sigma, xmax= signal_fitted_mean + 3 * signal_fitted_sigma, color='pink', alpha=0.3, label=f'LED window')
             plt.text(
                 x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
@@ -266,8 +231,7 @@ def Rough_Analysis(file_path, wavelength, verbose):
             if verbose[1]==1:
                 plt.show()
             if verbose[2]==1:
-                Pic_Path = verbose[3] + f"_Rough_Led_Time_Distribution_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi=500)
+                plt.savefig(verbose[3] + f"_Rough_Led_Time_Distribution_ch{channel}.jpg")
                 print(f"[Rough_Analysis] Save LED Window of ch{channel}")
             plt.close()
 
@@ -373,7 +337,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
                 print(f"[Detailed Analysis] signal_ch{channel} is zero. Skipping")
     # # 计算DCR、LED
         if channel == 0:
-            led_window = [rough_array[4] - 3 *  rough_array[5], rough_array[4] + 3 * rough_array[5]]
+            led_window = [rough_array[4] - 3 * rough_array[5], rough_array[4] + 3 * rough_array[5]]
             dcr_window = [40, led_window[0]]
             dcr = len(dcr_ch0) / (1e-6 * (dcr_window[1] - dcr_window[0]) * file.shape[0]) # Unit: kHz
             dark_noise = len(dcr_ch0) * (led_window[1] - led_window[0]) / (dcr_window[1] - dcr_window[0])  # LED窗口内总共有多少个暗噪声
@@ -425,7 +389,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
             if verbose_dcr == 1:
                 bounds = [0, 1000]
                 bins = 500
-                plt.figure(figsize=(10, 8))
+                plt.figure(figsize=(8, 6))
                 plt.hist(dcr_am, histtype='step', bins=bins, range=bounds)
                 plt.title(f"Dark Noise Amplitude Distribution of ch{channel}")
                 plt.xlabel("Amplitude/ADC")
@@ -433,8 +397,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
                 if verbose[1] == 1:
                     plt.show()
                 if verbose[2] == 1:
-                    Pic_Path = verbose[3] + f"_Detailed_DCR_Amplitude_Distribution_ch{channel}.jpg"
-                    plt.savefig(Pic_Path, dpi=500)
+                    plt.savefig(verbose[3] + f"_Detailed_DCR_Amplitude_Distribution_ch{channel}.jpg")
                     print(f"[Detailed_Analysis] Save DCR Amplitude Distribution of ch{channel}")
                 plt.close()
             
@@ -446,7 +409,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
                     gap = 6
                 bounds = [0, int(rough_array[4 + gap] - 3 * rough_array[5 + gap])]
                 bins = int((bounds[1] - bounds[0])/2)
-                plt.figure(figsize=(10, 8))
+                plt.figure(figsize=(8, 6))
                 plt.hist(dcr_time, histtype='step', bins=bins, range=bounds)
                 plt.title(f"Dark Noise Time Distribution of ch{channel}")
                 plt.xlabel("Time/ns")
@@ -454,8 +417,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
                 if verbose[1] == 1:
                     plt.show()
                 if verbose[2] == 1:
-                    Pic_Path = verbose[3] + f"_Detailed_DCR_Time_Distribution_ch{channel}.jpg"
-                    plt.savefig(Pic_Path, dpi=500)
+                    plt.savefig(verbose[3] + f"_Detailed_DCR_Time_Distribution_ch{channel}.jpg")
                     print(f"[Detailed_Analysis] Save DCR Time Distribution of ch{channel}")
                 plt.close()
                 
@@ -463,7 +425,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
             # if verbose_dcr == 1:
             #     bounds = [np.min(dcr_charge), np.max(dcr_charge)]
             #     bins = int((bounds[1] - bounds[0])/10)
-            #     plt.figure(figsize=(10, 8))
+            #     plt.figure(figsize=(8, 6))
             #     plt.hist(dcr_charge, histtype='step', bins=bins, range=bounds)
             #     plt.title(f"Dark Noise Charge Distribution of ch{channel}")
             #     plt.xlabel("ADC*ns")
@@ -479,7 +441,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
             if verbose_led == 1:
                 bounds = [0, 1000]
                 bins = int((bounds[1] - bounds[0])/2)
-                plt.figure(figsize=(10, 8))
+                plt.figure(figsize=(8, 6))
                 plt.hist(signal_am, histtype='step', bins=bins, range=bounds)
                 plt.title(f"LED Amplitude Distribution of ch{channel}")
                 plt.xlabel("Amplitude/ADC")
@@ -487,8 +449,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
                 if verbose[1] == 1:
                     plt.show()
                 if verbose[2] == 1:
-                    Pic_Path = verbose[3] + f"_Detailed_LED_Amplitude_Distribution_ch{channel}.jpg"
-                    plt.savefig(Pic_Path, dpi=500)
+                    plt.savefig(verbose[3] + f"_Detailed_LED_Amplitude_Distribution_ch{channel}.jpg")
                     print(f"[Detailed_Analysis] Save LED Amplitude Distribution of ch{channel}")
                 plt.close()
             
@@ -496,7 +457,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
             if verbose_led == 1:
                 bounds = [np.min(signal_time), np.max(signal_time)]
                 bins = int((bounds[1] - bounds[0])/2)
-                plt.figure(figsize=(10, 8))
+                plt.figure(figsize=(8, 6))
                 plt.hist(signal_time, histtype='step', bins=bins, range=bounds)
                 plt.title(f"LED Time Distribution of ch{channel}")
                 plt.xlabel("Time/ns")
@@ -504,8 +465,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
                 if verbose[1] == 1:
                     plt.show()
                 if verbose[2] == 1:
-                    Pic_Path = verbose[3] + f"_Detailed_LED_Time_Distribution_ch{channel}.jpg"
-                    plt.savefig(Pic_Path, dpi=500)
+                    plt.savefig(verbose[3] + f"_Detailed_LED_Time_Distribution_ch{channel}.jpg")
                     print(f"[Detailed_Analysis] Save LED Time Distribution of ch{channel}")
                 plt.close()
             
@@ -513,7 +473,7 @@ def Detailed_Analysis(file_path, rough_array, verbose):
             # if verbose_led == 1:
             #     bounds = [np.min(signal_charge), np.max(signal_charge)]
             #     bins = int((bounds[1] - bounds[0])/4)
-            #     plt.figure(figsize=(10, 8))
+            #     plt.figure(figsize=(8, 6))
             #     plt.hist(signal_charge, histtype='step', bins=bins, range=bounds)
             #     plt.title(f"Charge Distribution of ch{channel}")
             #     plt.xlabel("ADC*ns")
@@ -526,685 +486,6 @@ def Detailed_Analysis(file_path, rough_array, verbose):
             #     plt.close()
     # 输出
     return dcr_ch0, dcr_ch1, signal_ch0, signal_ch1, info
-
-def Rough_Analysis_DCR(file_path, wavelength, verbose):
-    file = loadH5(file_path)
-    # 声明变量
-    baseline_array_ch1 = []
-    peak_am_array_ch1 = []
-    peak_time_array_ch1 = []
-    # 循环
-    for index in tqdm(range(file.shape[0])):
-        waves = file[index]
-        channel = 1
-        if channel == 1:
-            wave = 500 + waves[channel] # 平移，方便后续处理
-        # # 处理baseline
-        rough_mean = np.mean(wave)
-        # # 记录基线
-        if channel == 1:
-            baseline_array_ch1.append(rough_mean)
-        # # 剪掉基线
-        wave = wave - rough_mean
-        # # 统计peak的ADC分布和时间分布
-        peak_am = np.max(wave)
-        peak_time = np.argmax(wave)
-        if channel == 1:
-            peak_am_array_ch1.append(peak_am)
-            peak_time_array_ch1.append(peak_time)
-    # 处理Ch1
-    rough_res = []
-    channel = 1
-    if channel == 1:
-        baseline = np.array(baseline_array_ch1)
-        peak_am_array = np.array(peak_am_array_ch1)
-        peak_time_array = np.array(peak_time_array_ch1)
-    # # 基线统计
-    rough_mean = np.mean(baseline)
-    rough_sigma = np.std(baseline)
-    bounds = [(rough_mean - 3 * rough_sigma, rough_mean + 3 * rough_sigma), (0.001, 3 * rough_sigma)]
-    res = gausfit(x0=[rough_mean, rough_sigma], args=baseline, bounds=bounds)
-    baseline_fitted_mean, baseline_fitted_sigma = res.x
-    # # Pedestal统计
-    pedestal_rough_cut = 18
-    small_peak = peak_am_array[peak_am_array < 2 * pedestal_rough_cut]
-    rough_mean = np.mean(small_peak)
-    rough_sigma = np.std(small_peak)
-    res = gausfit(x0=[rough_mean,rough_sigma], args=small_peak, bounds=[(0, rough_mean + 5 * rough_mean),(0.001, 5 * rough_sigma)])
-    pedestal_fitted_mean, pedestal_fitted_sigma = res.x
-    # # Signal时间窗统计
-    pedestal_cut = pedestal_fitted_mean + 5 * pedestal_fitted_sigma
-    condition = peak_am_array > pedestal_cut
-    filtered_peak_time_array = peak_time_array[condition]
-    if wavelength == 365:
-        time_range = [500, 750]
-    elif wavelength == 415:
-        time_range = [250, 400]
-    elif wavelength == 465 or wavelength == 480:
-        time_range = [300, 700]
-    elif wavelength == 0:
-        time_range = [800, 900]
-    filtered_peak_time_array_all_range = filtered_peak_time_array
-    filtered_peak_time_array = filtered_peak_time_array[(filtered_peak_time_array > time_range[0]) & (filtered_peak_time_array < time_range[1])]
-    rough_mean = np.mean(filtered_peak_time_array)
-    rough_sigma = np.std(filtered_peak_time_array)
-    bounds=[(rough_mean - 3 * rough_sigma, rough_mean + 3 * rough_sigma), (0.001, 5 * rough_sigma)]
-    res = gausfit(x0=[rough_mean, rough_sigma], args=filtered_peak_time_array, bounds=bounds)
-    signal_fitted_mean, signal_fitted_sigma = res.x        
-    
-    # # 记录ch0
-    rough_res.append(0)
-    rough_res.append(0)
-    rough_res.append(0)
-    rough_res.append(0)
-    rough_res.append(0)
-    rough_res.append(0)
-    # # 记录
-    rough_res.append(baseline_fitted_mean)
-    rough_res.append(baseline_fitted_sigma)
-    rough_res.append(pedestal_fitted_mean)
-    rough_res.append(pedestal_fitted_sigma)
-    rough_res.append(signal_fitted_mean)
-    rough_res.append(signal_fitted_sigma)
-    
-    # # 画图
-    if verbose[0]==1:
-        # # # Baseline
-        if channel == 1:
-            bounds = [480, 500]
-        plt.figure(figsize = (10, 8))
-        plt.hist(baseline, histtype='step', bins=100, range=bounds)
-        plt.axvline(x=baseline_fitted_mean, color='red', linestyle='--', label=f'Fitted mean')
-        plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.05,
-            y=plt.gca().get_ylim()[1] * 0.9,
-            s=f'Mean:{baseline_fitted_mean}\nSigma={baseline_fitted_sigma}\nRe={baseline_fitted_sigma/baseline_fitted_mean}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-        )
-        plt.title(f"Baseline Distribution of ch{channel}")
-        plt.xlabel("Baseline/ADC")
-        plt.ylabel("Entries")
-        plt.legend()
-        if verbose[1]==1:
-            plt.show()
-        if verbose[2]==1:
-            Pic_Path = verbose[3] + f"_Rough_Baseline_Distribution_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
-            print(f"[Rough_Analysis] Save Baseline Distribution of ch{channel}")
-        plt.close()
-        
-        # # Peak Amplitude Distribution
-        bounds= [0, 1000]
-        plt.figure(figsize=(10, 8))
-        plt.hist(peak_am_array, histtype='step', bins=1000, range=bounds)
-        plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.05,
-            y=plt.gca().get_ylim()[1] * 0.9,
-            s=f'Pedestal mean:{pedestal_fitted_mean}\nPedestal sigma:{pedestal_fitted_sigma}\nPedestal cut:{pedestal_cut}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-        )
-        plt.axvline(x=pedestal_cut, color='red', linestyle='--', linewidth=1.5, label=f'pedestal cut')
-        plt.title(f"Peak Amplitude Distribution of ch{channel}")
-        plt.xlabel("Amplitude/ADC")
-        plt.ylabel("Entries")
-        plt.yscale('log')
-        plt.legend()
-        if verbose[1]==1:
-            plt.show()
-        if verbose[2]==1:
-            Pic_Path = verbose[3] + f"_Rough_Peak_Amplitude_Distribution_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
-            print(f"[Rough_Analysis] Save Peak Amplitude Distribution of ch{channel}")
-        plt.close()
-        
-        # # Peak Time Distribution
-        bounds=[0, 1000]
-        plt.figure(figsize=(10, 8))
-        plt.hist(peak_time_array, histtype='step', bins=500, range=bounds)
-        plt.axvline(x=signal_fitted_mean, color='red', linestyle='--', linewidth=1.5, label=f'Fitted mean')
-        plt.axvspan(np.min(filtered_peak_time_array), np.max(filtered_peak_time_array), color='green', alpha=0.3, label=f'Filted data')
-        plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.05,
-            y=plt.gca().get_ylim()[1] * 0.9,
-            s=f'Fitted mean:{signal_fitted_mean}\nFitted sigma:{signal_fitted_sigma}\nSelected range:{int(np.min(filtered_peak_time_array)), int(np.max(filtered_peak_time_array))}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-        )
-        plt.title(f"Peak Time Distritbution of ch{channel}")
-        plt.xlabel("t/ns")
-        plt.ylabel("Entries")
-        plt.legend()
-        if verbose[1]==1:
-            plt.show()
-        if verbose[2]==1:
-            Pic_Path = verbose[3] + f"_Rough_Peak_Time_Distribution_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
-            print(f"[Rough_Analysis] Save Peak Time Distribution of ch{channel}")
-        plt.close()
-        
-        # # Filted Time Distribution All Range
-        bounds=[1, 1000]
-        plt.figure(figsize=(10, 8))
-        plt.hist(filtered_peak_time_array_all_range, histtype='step', bins=500, range=bounds)
-        plt.axvline(x=signal_fitted_mean, color='red', linestyle='--', linewidth=1.5, label=f"Fitted mean")
-        plt.axvspan(np.min(filtered_peak_time_array), np.max(filtered_peak_time_array), color='green', alpha=0.3, label=f'Filted data')
-        plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.05,
-            y=plt.gca().get_ylim()[1] * 0.9,
-            s=f'Fitted mean:{signal_fitted_mean}\nFitted sigma:{signal_fitted_sigma}\nSelected range:{int(np.min(filtered_peak_time_array)), int(np.max(filtered_peak_time_array))}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-        )
-        plt.title(f"Peak Time Distribution after Pedestal Cut of ch{channel}")
-        plt.xlabel("t/ns")
-        plt.ylabel("Entries")
-        plt.legend()
-        if verbose[1] == 1:
-            plt.show()
-        if verbose[2] == 1:
-            Pic_Path = verbose[3] + f"_Rough_Peak_Time_Distribution_All_ch{channel}.jpg"
-            plt.savefig(Pic_Path)
-            print(f"[Rough_Analysis] Save Peakt Time All Range Distribution of ch{channel}")
-        plt.close()
-        
-        # # Signal Time Distribution
-        bounds=[np.min(filtered_peak_time_array), np.max(filtered_peak_time_array)]
-        plt.figure(figsize=(10, 8))
-        plt.hist(filtered_peak_time_array, histtype='step', bins = int((bounds[1] - bounds[0])/2), range=bounds)
-        plt.axvline(x= signal_fitted_mean, color='red', linestyle='--', linewidth=1.5, label=f'Fitted mean')
-        plt.axvspan(xmin= signal_fitted_mean - 3 * signal_fitted_sigma, xmax= signal_fitted_mean + 3 * signal_fitted_sigma, color='pink', alpha=0.3, label=f'LED window')
-        plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-            y=plt.gca().get_ylim()[1] * 0.9,
-            s=f'Fitted mean:{signal_fitted_mean}\nFitted Sigma:{signal_fitted_sigma}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-        )
-        plt.title(f"LED Signal Time Distribution of ch{channel}")
-        plt.xlabel("t/ns")
-        plt.ylabel("Entries")
-        plt.legend()
-        if verbose[1]==1:
-            plt.show()
-        if verbose[2]==1:
-            Pic_Path = verbose[3] + f"_Rough_Led_Time_Distribution_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
-            print(f"[Rough_Analysis] Save LED Window of ch{channel}")
-        plt.close()
-
-    # 返回
-    return np.array(rough_res)
-
-def Detailed_Analysis_DCR(file_path, rough_array, verbose):
-    # 导入文件
-    file = loadH5(file_path)
-    # 定义变量
-    dcr_ch1 = [] # index, amplitude, time
-    signal_ch1 = [] # index, amplitude, time, charge
-    info = [] # total number, ch1: led window, dcr, led
-    info.append(file.shape[0])
-    # 循环
-    for index in tqdm(range(file.shape[0])):
-        waves = file[index]
-        channel = 1
-        # 用于统计的变量
-        if channel == 1:
-            gap = 6
-            baseline = rough_array[0 + gap]
-            pedestal_cut = rough_array[2 + gap] + 5 * rough_array[3 + gap]
-            led_window = [800, 900]
-            dcr_window = [40, 800]
-        # 转成int类型
-        pedestal_cut = int(pedestal_cut)
-        led_window = [int(value) for value in led_window]
-        # 拿到数据
-        if channel == 1:
-            wave = 500 + waves[channel]
-        # 剪掉基线
-        wave = wave - baseline
-        # 定位peak
-        peak_am = np.max(wave)
-        peak_time = np.argmax(wave)
-        # pedestal cut
-        if peak_am < pedestal_cut: continue
-        # 统计LED与暗噪声
-        if peak_time > dcr_window[0] and peak_time < dcr_window[1]:
-            charge = np.sum(wave[0 : led_window[0]])
-            if channel == 1:
-                dcr_ch1.append([index, peak_am, peak_time, charge])
-        elif (peak_time > led_window[0]) and (peak_time < led_window[1]):
-            charge = np.sum(wave[led_window[0] : led_window[1]])
-            if channel == 1:
-                signal_ch1.append([index, peak_am, peak_time, charge])
-    # 变成numpy数组
-    dcr_ch1 = np.array(dcr_ch1)
-    signal_ch1 = np.array(signal_ch1)        
-    # 统计
-    channel = 1
-    if channel == 1:
-        if dcr_ch1.ndim > 1 and len(dcr_ch1) > 0:
-            dcr_am = dcr_ch1[:, 1]
-            dcr_time = dcr_ch1[:, 2]
-            dcr_charge = dcr_ch1[:, 3]
-            verbose_dcr = 1
-        else:
-            verbose_dcr = 0
-            print(f"[Detailed Analysis] dcr_ch{channel} is zero. Skipping")
-        if signal_ch1.ndim > 1 and len(signal_ch1) > 0:
-            signal_am = signal_ch1[:, 1]
-            signal_time = signal_ch1[:, 2]
-            signal_charge = signal_ch1[:, 3]
-            verbose_led = 1
-        else:
-            verbose_led = 0
-            print(f"[Detailed Analysis] signal_ch{channel} is zero. Skipping")
-# # 计算DCR、LED
-    if channel == 1:
-        gap = 6
-        led_window = [rough_array[4 + gap] - 3 * rough_array[5 + gap], rough_array[4 + gap] + 3 * rough_array[5 + gap]]
-        dcr_window = [40, led_window[0]]
-        dcr = len(dcr_ch1) / (1e-6 * (dcr_window[1] - dcr_window[0]) * file.shape[0]) # Unit: kHz
-        dark_noise = len(dcr_ch1) * (led_window[1] - led_window[0]) / (dcr_window[1] - dcr_window[0]) # LED窗口内总共有多少个暗噪声
-        led = len(signal_ch1) - dark_noise
-        # # # 误差计算
-        dcr_error = np.sqrt(len(dcr_ch1)) / (1e-6 * (dcr_window[1] - dcr_window[0]) * file.shape[0]) # Unit: kHz
-        dark_noise_error = np.sqrt(len(dcr_ch1)) * (led_window[1] - led_window[0]) / (dcr_window[1] - dcr_window[0])
-        signal_error = np.sqrt(len(signal_ch1))
-        led_error = np.sqrt(dark_noise_error**2 + signal_error**2)
-        # # 通用计算
-        trigger_ratio = led / file.shape[0]
-        trigger_ratio_error = led_error / file.shape[0]
-        Lambda = - np.log(1 - trigger_ratio)
-        Lambda_error = trigger_ratio_error / (1 - trigger_ratio)
-        # # 记录ch0的0信息
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        info.append(0)
-        
-        # # 记录
-        info.append(dcr_window[0])
-        info.append(led_window[0])
-        info.append(led_window[1])
-        if channel == 1:
-            info.append(len(signal_ch1))
-            info.append(len(dcr_ch1))
-        
-        info.append(dcr) # Unit: kHz
-        info.append(dcr_error) # Unit: kHz
-        info.append(led)
-        info.append(led_error)
-        info.append(trigger_ratio)
-        info.append(trigger_ratio_error)
-        info.append(Lambda)
-        info.append(Lambda_error)
-            
-        # # 画图、输出、保存
-    if verbose[0] == 1:
-        # # dcr Amplitude Distribution
-        if verbose_dcr == 1:
-            bounds = [0, 1000]
-            bins = 500
-            plt.figure(figsize=(10, 8))
-            plt.hist(dcr_am, histtype='step', bins=bins, range=bounds)
-            plt.title(f"Dark Noise Amplitude Distribution of ch{channel}")
-            plt.xlabel("Amplitude/ADC")
-            plt.ylabel("Entries")
-            if verbose[1] == 1:
-                plt.show()
-            if verbose[2] == 1:
-                Pic_Path = verbose[3] + f"_Detailed_DCR_Amplitude_Distribution_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi=500)
-                print(f"[Detailed_Analysis] Save DCR Amplitude Distribution of ch{channel}")
-            plt.close()
-        
-        # # dcr Time Distribution
-        if verbose_dcr == 1:
-            if channel == 1:
-                gap = 6
-            bounds = [0, int(rough_array[4 + gap] - 3 * rough_array[5 + gap])]
-            bins = int((bounds[1] - bounds[0])/2)
-            plt.figure(figsize=(10, 8))
-            plt.hist(dcr_time, histtype='step', bins=bins, range=bounds)
-            plt.title(f"Dark Noise Time Distribution of ch{channel}")
-            plt.xlabel("Time/ns")
-            plt.ylabel("Entries")
-            if verbose[1] == 1:
-                plt.show()
-            if verbose[2] == 1:
-                Pic_Path = verbose[3] + f"_Detailed_DCR_Time_Distribution_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi=500)
-                print(f"[Detailed_Analysis] Save DCR Time Distribution of ch{channel}")
-            plt.close()
-            
-        # # dcr Charge Distribution
-        # if verbose_dcr == 1:
-        #     bounds = [np.min(dcr_charge), np.max(dcr_charge)]
-        #     bins = int((bounds[1] - bounds[0])/10)
-        #     plt.figure(figsize=(10, 8))
-        #     plt.hist(dcr_charge, histtype='step', bins=bins, range=bounds)
-        #     plt.title(f"Dark Noise Charge Distribution of ch{channel}")
-        #     plt.xlabel("ADC*ns")
-        #     plt.ylabel("Entries")
-        #     if verbose[1] == 1:
-        #         plt.show()
-        #     if verbose[2] == 1:
-        #         plt.savefig(verbose[3] + f"_Detailed_DCR_Charge_Distribution_ch{channel}.jpg")
-        #         print(f"[Detailed_Analysis] Save DCR Charge Distribution of ch{channel}")
-        #     plt.close()
-        
-        # # Signal Amplitude Distribution
-        if verbose_led == 1:
-            bounds = [0, 1000]
-            bins = int((bounds[1] - bounds[0])/2)
-            plt.figure(figsize=(10, 8))
-            plt.hist(signal_am, histtype='step', bins=bins, range=bounds)
-            plt.title(f"LED Amplitude Distribution of ch{channel}")
-            plt.xlabel("Amplitude/ADC")
-            plt.ylabel("Entries")
-            if verbose[1] == 1:
-                plt.show()
-            if verbose[2] == 1:
-                Pic_Path = verbose[3] + f"_Detailed_LED_Amplitude_Distribution_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi=500)
-                print(f"[Detailed_Analysis] Save LED Amplitude Distribution of ch{channel}")
-            plt.close()
-        
-        # # Signal Time Distribution
-        if verbose_led == 1:
-            bounds = [np.min(signal_time), np.max(signal_time)]
-            bins = int((bounds[1] - bounds[0])/2)
-            plt.figure(figsize=(10, 8))
-            plt.hist(signal_time, histtype='step', bins=bins, range=bounds)
-            plt.title(f"LED Time Distribution of ch{channel}")
-            plt.xlabel("Time/ns")
-            plt.ylabel("Entries")
-            if verbose[1] == 1:
-                plt.show()
-            if verbose[2] == 1:
-                Pic_Path = verbose[3] + f"_Detailed_LED_Time_Distribution_ch{channel}.jpg"
-                plt.savefig(Pic_Path, dpi=500)
-                print(f"[Detailed_Analysis] Save LED Time Distribution of ch{channel}")
-            plt.close()
-        
-        # # Signal Charge Distribution
-        # if verbose_led == 1:
-        #     bounds = [np.min(signal_charge), np.max(signal_charge)]
-        #     bins = int((bounds[1] - bounds[0])/4)
-        #     plt.figure(figsize=(10, 8))
-        #     plt.hist(signal_charge, histtype='step', bins=bins, range=bounds)
-        #     plt.title(f"Charge Distribution of ch{channel}")
-        #     plt.xlabel("ADC*ns")
-        #     plt.ylabel("Entries")
-        #     if verbose[1] == 1:
-        #         plt.show()
-        #     if verbose[2] == 1:
-        #         plt.savefig(verbose[3] + f"_Detailed_LED_Charge_Distribution_ch{channel}.jpg")
-        #         print(f"[Detailed_Analysis] Save LED Charge Distribution of ch{channel}")
-        #     plt.close()
-    # 输出
-    return dcr_ch1, signal_ch1, info
-
-def Plot_Subrun_DCR(csv_path, run, verbose):
-    data = pd.read_csv(csv_path)
-    channel = 1
-    # Method I: Weighted Analysis
-    res_weighted = Subrun_Weighted_Analysis(data=data, channel=channel)
-    # Method II: Total Analysis
-    res_total = Subrun_Total_Analysis(data=data, channel=channel)
-    # # Baseline
-    weighted_mean = res_weighted[0]
-    weighted_error = res_weighted[1]
-    total_mean = res_total[0]
-    total_error = res_total[1]
-    plt.figure(figsize=(10, 8))
-    plt.errorbar(data["subrun"], data[f"ch{channel}_baseline_mean"],
-                yerr=data[f"ch{channel}_baseline_sigma"],
-                fmt='o',
-                label=f"Subrun",
-                color='blue',
-                markersize=5,
-                capsize=3,
-                linestyle='None',
-                ecolor='red',
-                elinewidth=1,
-                capthick=1)
-    bounds=[0,20]
-    plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.1,
-            y=np.mean(data[f"ch{channel}_baseline_mean"]) + np.min(data[f"ch{channel}_baseline_sigma"]/2),
-            s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-            )
-    plt.axhspan(weighted_mean - weighted_error, weighted_mean + weighted_error, color='pink', alpha=0.3, label=f"I: Weighted Analysis")
-    plt.axhline(weighted_mean, color='pink')
-    plt.axhspan(total_mean - total_error, total_mean + total_error, color='green', alpha=0.3, label=f"II: Total Analysis")
-    plt.axhline(total_mean, color='green')
-    plt.title(f"Baseline Distribution of ch{channel}")
-    plt.xlabel(f"Subrun")
-    plt.ylabel(f"ADC")
-    plt.legend()
-    if verbose[0] == 1:
-        plt.show()
-    if verbose[1] == 1:
-        Pic_Path = verbose[2] + f"_baseline_ch{channel}.jpg"
-        plt.savefig(Pic_Path, dpi=500)
-        print(f"[Plot_Subrun] Save Baseline of ch{channel}")
-    plt.close()
-
-    # # DCR
-    gap = 2
-    weighted_mean = res_weighted[0 + gap]
-    weighted_error = res_weighted[1 + gap]
-    total_mean = res_total[0 + gap]
-    total_error = res_total[1 + gap]
-    plt.figure(figsize=(10, 8))
-    plt.errorbar(data["subrun"], data[f"ch{channel}_dcr"],
-                yerr=data[f"ch{channel}_dcr_error"],
-                fmt='o',
-                label=f"Subrun",
-                color='blue',
-                markersize=5,
-                capsize=3,
-                linestyle='None',
-                ecolor='red',
-                elinewidth=1,
-                capthick=1)
-    bounds=[0,20]
-    plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-            y=np.mean(data[f"ch{channel}_dcr"]) + np.min(data[f"ch{channel}_dcr_error"]/2),
-            s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-            )
-    plt.axhspan(weighted_mean - weighted_error, weighted_mean + weighted_error, color='pink', alpha=0.3, label=f"I: Weighted Analysis")
-    plt.axhline(weighted_mean, color='pink')
-    plt.axhspan(total_mean - total_error, total_mean + total_error, color='green', alpha=0.3, label=f"II: Total Analysis")
-    plt.axhline(total_mean, color='green')
-    plt.title(f"DCR of ch{channel}")
-    plt.xlabel(f"Subrun")
-    plt.ylabel(f"DCR/kHz")
-    plt.legend()
-    if verbose[0] == 1:
-        plt.show()
-    if verbose[1] == 1:
-        Pic_Path = verbose[2] + f"_dcr_ch{channel}.jpg"
-        plt.savefig(Pic_Path, dpi=500)
-        print(f"[Plot_Subrun] Save DCR of ch{channel}")
-    plt.close()
-
-    # # LED
-    gap = 4
-    weighted_mean = res_weighted[0 + gap]
-    weighted_error = res_weighted[1 + gap]
-    total_mean = res_total[0 + gap]/20
-    total_error = res_total[1 + gap]/20
-    plt.figure(figsize=(10, 8))
-    plt.errorbar(data["subrun"], data[f"ch{channel}_led"],
-                yerr=data[f"ch{channel}_led_error"],
-                fmt='o',
-                label=f"Subrun",
-                color='blue',
-                markersize=5,
-                capsize=3,
-                linestyle='None',
-                ecolor='red',
-                elinewidth=1,
-                capthick=1)
-    bounds=[0,20]
-    plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-            y=np.mean(data[f"ch{channel}_led"]) + np.min(data[f"ch{channel}_led_error"]/2),
-            s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-            )
-    plt.axhspan(weighted_mean - weighted_error, weighted_mean + weighted_error, color='pink', alpha=0.3, label=f"I: Weighted Analysis")
-    plt.axhline(weighted_mean, color='pink')
-    plt.axhspan(total_mean - total_error, total_mean + total_error, color='green', alpha=0.3, label=f"II: Total Analysis")
-    plt.axhline(total_mean, color='green')
-    plt.title(f"LED Signals of ch{channel}")
-    plt.xlabel(f"Subrun")
-    plt.ylabel(f"LED Signals")
-    plt.legend()
-    if verbose[0] == 1:
-        plt.show()
-    if verbose[1] == 1:
-        Pic_Path = verbose[2] + f"_LED_ch{channel}.jpg"
-        plt.savefig(Pic_Path, dpi=500)
-        print(f"[Plot_Subrun] Save LED Signals of ch{channel}")
-    plt.close()   
-
-    # Trigger Ratio
-    gap = 6
-    weighted_mean = res_weighted[0 + gap]
-    weighted_error = res_weighted[1 + gap]
-    total_mean = res_total[0 + gap]
-    total_error = res_total[1 + gap]
-    plt.figure(figsize=(10, 8))
-    plt.errorbar(data["subrun"], data[f"ch{channel}_trigger_ratio"],
-                yerr=data[f"ch{channel}_trigger_ratio_error"],
-                fmt='o',
-                label=f"Subrun",
-                color='blue',
-                markersize=5,
-                capsize=3,
-                linestyle='None',
-                ecolor='red',
-                elinewidth=1,
-                capthick=1)
-    bounds=[0,20]
-    plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-            y=np.mean(data[f"ch{channel}_trigger_ratio"]) + np.min(data[f"ch{channel}_trigger_ratio_error"]/2),
-            s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-            )
-    plt.axhspan(weighted_mean - weighted_error, weighted_mean + weighted_error, color='pink', alpha=0.3, label=f"I: Weighted Analysis")
-    plt.axhline(weighted_mean, color='pink')
-    plt.axhspan(total_mean - total_error, total_mean + total_error, color='green', alpha=0.3, label=f"II: Total Analysis")
-    plt.axhline(total_mean, color='green')
-    plt.title(f"Trigger Ratio of ch{channel}")
-    plt.xlabel(f"Subrun")
-    plt.ylabel(f"Trigger Ratio")
-    plt.legend()
-    if verbose[0] == 1:
-        plt.show()
-    if verbose[1] == 1:
-        Pic_Path = verbose[2] + f"_trigger_ratio_ch{channel}.jpg"
-        plt.savefig(Pic_Path, dpi=500)
-        print(f"[Plot_Subrun] Save Trigger Ratio of ch{channel}")
-    plt.close() 
-        
-    # # Lambda
-    gap = 8
-    weighted_mean = res_weighted[0 + gap]
-    weighted_error = res_weighted[1 + gap]
-    total_mean = res_total[0 + gap]
-    total_error = res_total[1 + gap]
-    plt.figure(figsize=(10, 8))
-    plt.errorbar(data["subrun"], data[f"ch{channel}_lambda"],
-                yerr=data[f"ch{channel}_lambda_error"],
-                fmt='o',
-                label=f"Subrun",
-                color='blue',
-                markersize=5,
-                capsize=3,
-                linestyle='None',
-                ecolor='red',
-                elinewidth=1,
-                capthick=1)
-    bounds=[0,20]
-    plt.text(
-            x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-            y=np.mean(data[f"ch{channel}_lambda"]) + np.min(data[f"ch{channel}_lambda_error"]/2),
-            s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
-            ha='right',
-            va='top',
-            fontsize=12,
-            bbox=dict(facecolor='white', alpha=0.7, edgecolor='none')
-            )
-    plt.axhspan(weighted_mean - weighted_error, weighted_mean + weighted_error, color='pink', alpha=0.3, label=f"I: Weighted Analysis")
-    plt.axhline(weighted_mean, color='pink')
-    plt.axhspan(total_mean - total_error, total_mean + total_error, color='green', alpha=0.3, label=f"II: Total Analysis")
-    plt.axhline(total_mean, color='green')
-    plt.title(f"$\lambda$ of ch{channel}")
-    plt.xlabel(f"Subrun")
-    plt.ylabel(f"$\lambda$")
-    plt.legend()
-    if verbose[0] == 1:
-        plt.show()
-    if verbose[1] == 1:
-        Pic_Path = verbose[2] + f"_lambda_ch{channel}.jpg"
-        plt.savefig(Pic_Path, dpi=500)
-        print(f"[Plot_Subrun] Save Lambda of ch{channel}")
-    plt.close()
-
-    # # Lambda Ratio
-    res_weighted_1 = Subrun_Weighted_Analysis(data=data, channel=1)
-    res_total_1 = Subrun_Total_Analysis(data=data, channel=1)
-    res_weighted_0 = res_weighted_1 * 0
-    res_total_0 = res_total_1 * 0
-    weighted_mean = 0
-    weighted_error = 0
-    total_mean = 0
-    total_error = 0
-    
-    # 输出信息
-    res = np.concatenate((res_weighted_0, res_weighted_1, res_total_0, res_total_1, [weighted_mean, weighted_error, total_mean, total_error]))
-    return res
 
 def Subrun_Weighted_Analysis(data, channel):
     # Baseline
@@ -1277,7 +558,7 @@ def Plot_Subrun(csv_path, run, verbose):
         weighted_error = res_weighted[1]
         total_mean = res_total[0]
         total_error = res_total[1]
-        plt.figure(figsize=(10, 8))
+        plt.figure(figsize=(8, 6))
         plt.errorbar(data["subrun"], data[f"ch{channel}_baseline_mean"],
                     yerr=data[f"ch{channel}_baseline_sigma"],
                     fmt='o',
@@ -1292,7 +573,7 @@ def Plot_Subrun(csv_path, run, verbose):
         bounds=[0,20]
         plt.text(
                 x=bounds[1] - (bounds[1] - bounds[0]) * 0.1,
-                y=np.mean(data[f"ch{channel}_baseline_mean"]) + np.min(data[f"ch{channel}_baseline_sigma"]/2),
+                y=np.max(data[f"ch{channel}_baseline_mean"]) + np.min(data[f"ch{channel}_baseline_sigma"]/2),
                 s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
                 ha='right',
                 va='top',
@@ -1310,8 +591,7 @@ def Plot_Subrun(csv_path, run, verbose):
         if verbose[0] == 1:
             plt.show()
         if verbose[1] == 1:
-            Pic_Path = verbose[2] + f"_baseline_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
+            plt.savefig(verbose[2] + f"_baseline_ch{channel}.jpg")
             print(f"[Plot_Subrun] Save Baseline of ch{channel}")
         plt.close()
 
@@ -1321,7 +601,7 @@ def Plot_Subrun(csv_path, run, verbose):
         weighted_error = res_weighted[1 + gap]
         total_mean = res_total[0 + gap]
         total_error = res_total[1 + gap]
-        plt.figure(figsize=(10, 8))
+        plt.figure(figsize=(8, 6))
         plt.errorbar(data["subrun"], data[f"ch{channel}_dcr"],
                     yerr=data[f"ch{channel}_dcr_error"],
                     fmt='o',
@@ -1336,7 +616,7 @@ def Plot_Subrun(csv_path, run, verbose):
         bounds=[0,20]
         plt.text(
                 x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-                y=np.mean(data[f"ch{channel}_dcr"]) + np.min(data[f"ch{channel}_dcr_error"]/2),
+                y=np.max(data[f"ch{channel}_dcr"]) + np.min(data[f"ch{channel}_dcr_error"]/2),
                 s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
                 ha='right',
                 va='top',
@@ -1345,7 +625,7 @@ def Plot_Subrun(csv_path, run, verbose):
                 )
         plt.axhspan(weighted_mean - weighted_error, weighted_mean + weighted_error, color='pink', alpha=0.3, label=f"I: Weighted Analysis")
         plt.axhline(weighted_mean, color='pink')
-        plt.axhspan(total_mean - total_error, total_mean + total_error, color='green', alpha=0.3, label=f"II: Total Analysis")
+        plt.axhspan(total_mean - total_error, total_mean + total_error, color='green', alpha=0.3, label=f"I: Total Analysis")
         plt.axhline(total_mean, color='green')
         plt.title(f"DCR of ch{channel}")
         plt.xlabel(f"Subrun")
@@ -1354,8 +634,7 @@ def Plot_Subrun(csv_path, run, verbose):
         if verbose[0] == 1:
             plt.show()
         if verbose[1] == 1:
-            Pic_Path = verbose[2] + f"_dcr_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
+            plt.savefig(verbose[2] + f"_dcr_ch{channel}.jpg")
             print(f"[Plot_Subrun] Save DCR of ch{channel}")
         plt.close()
 
@@ -1365,7 +644,7 @@ def Plot_Subrun(csv_path, run, verbose):
         weighted_error = res_weighted[1 + gap]
         total_mean = res_total[0 + gap]/20
         total_error = res_total[1 + gap]/20
-        plt.figure(figsize=(10, 8))
+        plt.figure(figsize=(8, 6))
         plt.errorbar(data["subrun"], data[f"ch{channel}_led"],
                     yerr=data[f"ch{channel}_led_error"],
                     fmt='o',
@@ -1380,7 +659,7 @@ def Plot_Subrun(csv_path, run, verbose):
         bounds=[0,20]
         plt.text(
                 x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-                y=np.mean(data[f"ch{channel}_led"]) + np.min(data[f"ch{channel}_led_error"]/2),
+                y=np.max(data[f"ch{channel}_led"]) + np.min(data[f"ch{channel}_led_error"]/2),
                 s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
                 ha='right',
                 va='top',
@@ -1398,8 +677,7 @@ def Plot_Subrun(csv_path, run, verbose):
         if verbose[0] == 1:
             plt.show()
         if verbose[1] == 1:
-            Pic_Path = verbose[2] + f"_LED_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
+            plt.savefig(verbose[2] + f"_LED_ch{channel}.jpg")
             print(f"[Plot_Subrun] Save LED Signals of ch{channel}")
         plt.close()   
 
@@ -1409,7 +687,7 @@ def Plot_Subrun(csv_path, run, verbose):
         weighted_error = res_weighted[1 + gap]
         total_mean = res_total[0 + gap]
         total_error = res_total[1 + gap]
-        plt.figure(figsize=(10, 8))
+        plt.figure(figsize=(8, 6))
         plt.errorbar(data["subrun"], data[f"ch{channel}_trigger_ratio"],
                     yerr=data[f"ch{channel}_trigger_ratio_error"],
                     fmt='o',
@@ -1424,7 +702,7 @@ def Plot_Subrun(csv_path, run, verbose):
         bounds=[0,20]
         plt.text(
                 x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-                y=np.mean(data[f"ch{channel}_trigger_ratio"]) + np.min(data[f"ch{channel}_trigger_ratio_error"]/2),
+                y=np.max(data[f"ch{channel}_trigger_ratio"]) + np.min(data[f"ch{channel}_trigger_ratio_error"]/2),
                 s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
                 ha='right',
                 va='top',
@@ -1442,8 +720,7 @@ def Plot_Subrun(csv_path, run, verbose):
         if verbose[0] == 1:
             plt.show()
         if verbose[1] == 1:
-            Pic_Path = verbose[2] + f"_trigger_ratio_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
+            plt.savefig(verbose[2] + f"_trigger_ratio_ch{channel}.jpg")
             print(f"[Plot_Subrun] Save Trigger Ratio of ch{channel}")
         plt.close() 
             
@@ -1453,7 +730,7 @@ def Plot_Subrun(csv_path, run, verbose):
         weighted_error = res_weighted[1 + gap]
         total_mean = res_total[0 + gap]
         total_error = res_total[1 + gap]
-        plt.figure(figsize=(10, 8))
+        plt.figure(figsize=(8, 6))
         plt.errorbar(data["subrun"], data[f"ch{channel}_lambda"],
                     yerr=data[f"ch{channel}_lambda_error"],
                     fmt='o',
@@ -1468,7 +745,7 @@ def Plot_Subrun(csv_path, run, verbose):
         bounds=[0,20]
         plt.text(
                 x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-                y=np.mean(data[f"ch{channel}_lambda"]) + np.min(data[f"ch{channel}_lambda_error"]/2),
+                y=np.max(data[f"ch{channel}_lambda"]) + np.min(data[f"ch{channel}_lambda_error"]/2),
                 s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
                 ha='right',
                 va='top',
@@ -1486,8 +763,7 @@ def Plot_Subrun(csv_path, run, verbose):
         if verbose[0] == 1:
             plt.show()
         if verbose[1] == 1:
-            Pic_Path = verbose[2] + f"_lambda_ch{channel}.jpg"
-            plt.savefig(Pic_Path, dpi=500)
+            plt.savefig(verbose[2] + f"_lambda_ch{channel}.jpg")
             print(f"[Plot_Subrun] Save Lambda of ch{channel}")
         plt.close()
 
@@ -1501,7 +777,7 @@ def Plot_Subrun(csv_path, run, verbose):
     total_mean = res_total_1[-2] / res_total_0[-2]
     total_error = total_mean * np.sqrt((res_total_1[-1]/res_total_1[-2])**2 + (res_total_0[-1]/res_total_0[-2])**2)
 
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(8, 6))
     ratio = data["ch1_lambda"]/data["ch0_lambda"]
     ratio_error = ratio * np.sqrt((data["ch1_lambda_error"]/data["ch1_lambda"])**2 + (data["ch0_lambda_error"]/data["ch0_lambda"])**2)
     plt.errorbar(data["subrun"], ratio,
@@ -1518,7 +794,7 @@ def Plot_Subrun(csv_path, run, verbose):
     bounds=[0,20]
     plt.text(
             x=bounds[1] - (bounds[1] - bounds[0]) * 0.02,
-            y=np.mean(ratio) + np.min(ratio)/2,
+            y=plt.gca().get_ylim()[1] * 0.88,
             s=f'Weighted:{weighted_mean:.4f},{weighted_error:.4f}\nTotal:{total_mean:.4f},{total_error:.4f}',
             ha='right',
             va='top',
@@ -1534,10 +810,9 @@ def Plot_Subrun(csv_path, run, verbose):
     plt.ylabel(r"$\lambda_{test}/\lambda_{cali}$")
     plt.legend()
     if verbose[0] == 1:
-        plt.show()
+            plt.show()
     if verbose[1] == 1:
-        Pic_Path = verbose[2] + f"_test_cali_ch{channel}.jpg"
-        plt.savefig(Pic_Path, dpi=500)
+        plt.savefig(verbose[2] + f"_test_cali_ch{channel}.jpg")
         print(f"[Plot_Subrun] Save Test/Cali")
     plt.close()
     
@@ -1589,16 +864,10 @@ def Run_Analysis(data_dir, pic_dir, csv_dir, wavelength, verbose):
         pic_path = pic_dir + f"/{subrun}"
         if verbose[0] == 1:
             verbose=[1, 0, 1, pic_path] # verbose总开关、show、save、save地址
-        if wavelength == 0:
-            rough_res = Rough_Analysis_DCR(file_path=file_path, wavelength=wavelength, verbose=verbose)
-        else:
-            rough_res = Rough_Analysis(file_path=file_path, wavelength=wavelength, verbose=verbose)
+        rough_res = Rough_Analysis(file_path=file_path, wavelength=wavelength, verbose=verbose)
         if verbose[1] == 1:
             verbose=[1, 0, 1, pic_path] # verbose总开关、show、save、save地址
-        if wavelength == 0:
-            dcr_ch1, led_ch1, info = Detailed_Analysis_DCR(file_path=file_path, rough_array=rough_res, verbose=verbose)
-        else:
-            dcr_ch0, dcr_ch1, led_ch0, led_ch1, info = Detailed_Analysis(file_path=file_path, rough_array=rough_res, verbose=verbose)
+        dcr_ch0, dcr_ch1, led_ch0, led_ch1, info = Detailed_Analysis(file_path=file_path, rough_array=rough_res, verbose=verbose)
         # # 结果输出
         rough_res = ",".join(map(str, rough_res))
         info = ",".join(map(str,info))
@@ -1614,50 +883,32 @@ def Run_Analysis(data_dir, pic_dir, csv_dir, wavelength, verbose):
     # 画图
     if verbose[2] == 1:
         verbose = [0, 1, csv_dir + f"/{run}"] # Show, Save, Save地址
-        if wavelength == 0:
-            Plot_Subrun_DCR(csv_path=run_csv_path, run=run, verbose=verbose)
-        else:
-            Plot_Subrun(csv_path=run_csv_path, run=run, verbose=verbose)
-    # if verbose[3] == 1:
-    #     return 
-        
-# 脚本运行代码
-if __name__ == "__main__":
-    # 传入参数
-    parser = argparse.ArgumentParser(description="Run PMT Analysis")
-    parser.add_argument("--data_dir", type=str, required=True, help="Path to the data directory")
-    parser.add_argument("--pic_dir", type=str, default="/home/penguin/PMTAnalysis/Pics/Data", help="Path to the picture directory")
-    parser.add_argument("--csv_dir", type=str, default="/home/penguin/PMTAnalysis/Infos", help="Path to the CSV directory")
-    parser.add_argument("--wavelength", type=int, nargs=1, default=415, help="Wavelength")
-    parser.add_argument("--verbose", type=int, nargs=3, default=[1, 1, 1], help="Verbose levels:[Rough, Detailed, Subrun]")
+        Plot_Subrun(csv_path=run_csv_path, run=run, verbose=verbose)
+       
+            
+# if __name__ == "__main__":
+#     # 传入参数
+#     parser = argparse.ArgumentParser(description="Run PMT Analysis")
+#     parser.add_argument("--data_dir", type=str, required=True, help="Path to the data directory")
+#     parser.add_argument("--pic_dir", type=str, default="/home/penguin/PMTAnalysis/Pics/Data", help="Path to the picture directory")
+#     parser.add_argument("--csv_dir", type=str, default="/home/penguin/PMTAnalysis/Infos", help="Path to the CSV directory")
+#     parser.add_argument("--verbose", type=int, nargs=3, default=[1, 1, 1], help="Verbose levels:[Rough, Detailed, Subrun]")
     
-    # 解析参数
-    args = parser.parse_args()
+#     # 解析参数
+#     args = parser.parse_args()
     
-    # 程序运行
-    Run_Analysis(data_dir=args.data_dir, pic_dir=args.pic_dir, csv_dir=args.csv_dir, wavelength=args.wavelength[0], verbose=args.verbose)
+#     # 程序运行
+#     Run_Analysis(data_dir=args.data_dir, pic_dir=args.pic_dir, csv_dir=args.csv_dir, verbose=args.verbose)
     
-    # 测试代码(可删)
-    # data_dir = "/mnt/e/PMT/Data/37"
-    # pic_dir = "/home/penguin/PMTAnalysis/Pics/Data"
-    # csv_dir = "/home/penguin/PMTAnalysis/Infos"
-    # verbose = [1, 1, 1] # Rough, Detailed, Subrun的画图
-    # Run_Analysis(data_dir=data_dir, pic_dir=pic_dir, csv_dir=csv_dir, verbose=verbose)
+# 测试代码(可删)
+data_dir = "/mnt/e/PMT/Data/93"
+pic_dir = "/home/penguin/PMTAnalysis/Pics/Data"
+csv_dir = "/home/penguin/PMTAnalysis/Infos"
+verbose = [1, 0, 0] # Rough, Detailed, Subrun的画图
+Run_Analysis(data_dir=data_dir, pic_dir=pic_dir, csv_dir=csv_dir, wavelength=465, verbose=verbose)
       
-# 单个run代码
-# data_dir = "/mnt/g/Data/529"
-# pic_dir = "/home/penguin/PMTAnalysis/Pics/Data"
-# csv_dir = "/home/penguin/PMTAnalysis/Infos"
-# Run_Analysis(data_dir=data_dir, pic_dir=pic_dir, csv_dir=csv_dir, wavelength=0, verbose=[1,1,1])
 
 
-
-
-
-
-
-
-############################################测试代码
 # # # # 收集每个run的信息
 # res = Plot_Subrun(csv_path=csv_dir + f"/36/36.csv", run=36, verbose=[0, 0])
 # part1 = "weighted_ch0_baseline_mean,weighted_ch0_baseline_error,weighted_ch0_dcr,weighted_ch0_dcr_error,weighted_ch0_led,weighted_ch0_led_error,weighted_ch0_trigger_ratio,weighted_ch0_trigger_ratio_error,weighted_ch0_lambda,weighted_ch0_lambda_error"
