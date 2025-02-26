@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE gdml_simple_extension [
+
+<!ENTITY Materials SYSTEM "../../materials/Common_Material.xml">
+<!ENTITY Acrylic SYSTEM "../../materials/Acrylic.xml">
+<!ENTITY LS_Common_Par SYSTEM "../../materials/LABFamily/LS_Common_Par.xml">
+<!ENTITY LS_5kt SYSTEM "../../materials/LS_5kt.xml">
+<!ENTITY Water SYSTEM "../../materials/Water.xml">
+<!ENTITY Mineral_Oil SYSTEM "../../materials/Mineral_Oil.xml">
+<!ENTITY Polyethylene SYSTEM "../../materials/Polyethylene.xml">
+
+<!ENTITY PMT_Material SYSTEM "../../materials/PMT_Material.xml">
+]>
+
+<gdml_simple_extension
+    xmlns:gdml="http://cern.ch/2001/Schemas/GDML" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
+    xs:noNamespaceSchemaLocation="SimpleExtension11.xsd">
+
+    <extension>
+        <color name="LAB_color" R="0.0" G="1.0" B="1.0" A="0.3"/> 
+        <color name="Steel_color" R="0.5" G="0.5" B="0.9" A="0.2"/>
+        <color name="Water_color" R="0.0" G="0.5" B="0.8" A="0.3"/> 
+        <color name="Acrylic_color" R="1.0" G="1.0" B="1.0" A="0.3"/> 
+        <color name="Oil_color" R="1.0" G="1.0" B="0.0" A="0.3"/>
+        <color name="Acrylic_Black_color" R="0.0" G="0.0" B="0.0" A="0.1"/> 
+        <color name="Rock_color" R="0.33" G="0.33" B="0.5" A="0.3"/> 
+        <color name="White" R="1.0" G="1.0" B="1.0" A="1.0"/> 
+        <color name="Yellow" R="1.0" G="1.0" B="0.0" A="1.0"/>
+    </extension>
+
+    <!--materials-->
+    &Materials;
+    &Acrylic;
+    &LS_Common_Par;
+    &Water;
+    &Mineral_Oil;
+    &Polyethylene;
+    &PMT_Material;
+    &LS_5kt;
+
+    <solids>
+        <box name="WorldBox" x="1" y="1" z="1" lunit="m"/>
+        <polycone name="WindowOuter" startphi="0" deltaphi="360" aunit="degree" lunit="mm">
+            <zplane rmax="0" z="0"/>
+            <zplane rmax="7.607" z="-0.213"/>
+            <zplane rmax="15.171" z="-0.847"/>
+            <zplane rmax="22.651" z="-1.899"/>
+            <zplane rmax="30." z="-3.362"/>
+            <zplane rmax="37.186" z="-5.233"/>
+            <zplane rmax="44.160" z="-7.497"/>
+            <zplane rmax="50.887" z="-10.14"/>
+            <zplane rmax="57.329" z="-13.15"/>
+            <zplane rmax="63.448" z="-15.511"/>
+            <zplane rmax="69.21" z="-20.202"/>
+            <zplane rmax="74.586" z="-24.203"/>
+            <zplane rmax="79.543" z="-28.49"/>
+            <zplane rmax="84.051" z="-33.042"/>
+            <zplane rmax="88.088" z="-37.831"/>
+            <zplane rmax="91.632" z="-42.831"/>
+            <zplane rmax="94.661" z="-48.014"/>
+            <zplane rmax="97.157" z="-53.35"/>
+            <zplane rmax="99.108" z="-58.811"/>
+            <zplane rmax="100.505" z="-64.365"/>
+            <zplane rmax="101.337" z="-69.98"/>
+            <zplane rmax="101.598" z="-75.626"/>
+            <zplane rmax="101.289" z="-81.271"/>
+            <zplane rmax="100.414" z="-86.882"/>
+            <zplane rmax="98.975" z="-92.43"/>
+            <zplane rmax="96.978" z="-97.881"/>
+            <zplane rmax="94.436" z="-103.206"/>
+            <zplane rmax="91.367" z="-108.376"/>
+            <zplane rmax="87.784" z="-113.361"/>
+            <zplane rmax="83.707" z="-118.131"/>
+            <zplane rmax="79.16" z="-122.662"/>
+            <zplane rmax="74.171" z="-126.928"/>
+            <zplane rmax="68.765" z="-130.906"/>
+            <zplane rmax="66.2708" z="-132.743"/>
+            <zplane rmax="63.0416" z="-135.58"/>
+            <zplane rmax="60.1118" z="-138.725"/>
+            <zplane rmax="57.5106" z="-142.146"/>
+            <zplane rmax="55.2639" z="-145.811"/>
+            <zplane rmax="53.3944" z="-149.681"/>
+            <zplane rmax="51.9205" z="-153.719"/>
+            <zplane rmax="50.8571" z="-157.883"/>
+            <zplane rmax="50.2148" z="-162.133"/>
+            <zplane rmax="50." z="-166.426"/>
+        </polycone>
+        <polycone name="WindowInner" startphi="0" deltaphi="360" aunit="degree" lunit="mm">
+            <zplane rmax="0." z="-3."/>
+            <zplane rmax="9.613" z="-3.345"/>
+            <zplane rmax="15.288" z="-3.876"/>
+            <zplane rmax="22.817" z="-4.965"/>
+            <zplane rmax="30.207" z="-6.483"/>
+            <zplane rmax="37.414" z="-8.415"/>
+            <zplane rmax="44.395" z="-10.754"/>
+            <zplane rmax="51.107" z="-13.485"/>
+            <zplane rmax="57.509" z="-16.59"/>
+            <zplane rmax="63.563" z="-20.052"/>
+            <zplane rmax="69.232" z="-23.849"/>
+            <zplane rmax="74.482" z="-27.958"/>
+            <zplane rmax="79.28" z="-32.355"/>
+            <zplane rmax="83.599" z="-37.012"/>
+            <zplane rmax="87.411" z="-41.902"/>
+            <zplane rmax="90.694" z="-46.994"/>
+            <zplane rmax="93.428" z="-52.259"/>
+            <zplane rmax="95.596" z="-57.664"/>
+            <zplane rmax="97.184" z="-63.176"/>
+            <zplane rmax="98.185" z="-68.762"/>
+            <zplane rmax="98.59" z="-74.389"/>
+            <zplane rmax="98.399" z="-80.021"/>
+            <zplane rmax="97.612" z="-85.626"/>
+            <zplane rmax="96.233" z="-91.168"/>
+            <zplane rmax="94.272" z="-96.615"/>
+            <zplane rmax="91.74" z="-101.934"/>
+            <zplane rmax="88.652" z="-107.092"/>
+            <zplane rmax="85.027" z="-112.058"/>
+            <zplane rmax="80.972" z="-116.713"/>
+            <zplane rmax="76.731" z="-120.868"/>
+            <zplane rmax="71.166" z="-125.51"/>
+            <zplane rmax="67.088" z="-128.457"/>
+            <zplane rmax="64.4059" z="-130.432"/>
+            <zplane rmax="60.9515" z="-133.467"/>
+            <zplane rmax="57.8173" z="-136.831"/>
+            <zplane rmax="55.0346" z="-140.491"/>
+            <zplane rmax="52.6312" z="-144.411"/>
+            <zplane rmax="50.6312" z="-148.552"/>
+            <zplane rmax="49.0545" z="-152.871"/>
+            <zplane rmax="47.9169" z="-157.326"/>
+            <zplane rmax="47.2298" z="-161.873"/>
+            <zplane rmax="47." z="-166.465"/>
+        </polycone>
+        <tube name="WindowTube1" rmin="47." rmax="50." z="55." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <subtraction name="WindowSolid1">
+            <first ref="WindowOuter"/>
+            <second ref="WindowInner"/>
+            <position x="0." y="0." z="0." unit="mm"/>
+        </subtraction>
+        <union name="Window">
+            <first ref="WindowSolid1"/>
+            <second ref="WindowTube1"/>
+            <position x="0." y="0." z="-193.9" unit="mm"/>
+        </union>
+        <tube name="MCP1" rmin="0." rmax="25." z="0.01" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="MCP2" rmin="0." rmax="25." z="0.01" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="MCP3" rmin="0." rmax="25." z="0.01" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <union name="MCPSolid1">
+            <first ref="MCP2"/>
+            <second ref="MCP1"/>
+            <position x="0." y="0." z="0.48" unit="mm"/>
+        </union>
+        <union name="MCP">
+            <first ref="MCPSolid1"/>
+            <second ref="MCP3"/>
+            <position x="0." y="0." z="-0.48" unit="mm"/>
+        </union>
+        <tube name="Anode" rmin="0." rmax="25." z="0.1" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="MCPStandUpper" rmin="25." rmax="32." z="5." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="MCPStandLower" rmin="22.5" rmax="32." z="3." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <union name="MCPStand">
+            <first ref="MCPStandUpper"/>
+            <second ref="MCPStandLower"/>
+            <position x="0." y="0." z="-4." unit="mm"/>
+        </union>
+        <tube name="SteelTube1" rmin="42.6" rmax="43." z="9.6" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="SteelPlat" rmin="22.5" rmax="42.6" z="0.8" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="SteelTube2" rmin="37.5" rmax="37.7" z="95.3" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <union name="SteelSolid1">
+            <first ref="SteelTube2"/>
+            <second ref="SteelPlat"/>
+            <position x="0." y="0." z="48.8"/>
+        </union>
+        <union name="Steel">
+            <first ref="SteelSolid1"/>
+            <second ref="SteelTube1"/>
+            <position x="0." y="0." z="54."/>
+        </union>
+        <tube name="QuartzPlat" rmin="0." rmax="25." z="2.04" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="KavorTube" rmin="46." rmax="47." z="24." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="KavorBottom" rmin="46." rmax="72.5" z="0.679" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <union name="Kavor">
+            <first ref="KavorTube"/>
+            <second ref="KavorBottom"/>
+            <position x="0." y="0." z="-12.339" unit="mm"/>
+        </union>
+        <tube name="SteelBottom" rmin="25." rmax="72.5" z="1." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+ 
+        <tube name="ExSurfBody1" rmin="0." rmax="50." z="55." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="ExSurfBody2" rmin="0." rmax="47." z="24." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="ExSurfBottom" rmin="0." rmax="72.5" z="1.679" startphi="0." deltaphi="360" aunit="degree" lunit="mm"/>
+        <union name="PMTSolid1">
+            <first ref="WindowOuter"/>
+            <second ref="ExSurfBody1"/>
+            <position x="0." y="0." z="-193.9" unit="mm"/>
+        </union>
+        <union name="PMTSolid2">
+            <first ref="PMTSolid1"/>
+            <second ref="ExSurfBody2"/>
+            <position x="0." y="0." z="-233.4" unit="mm"/>
+        </union>
+        <union name="PMT">
+            <first ref="PMTSolid2"/>
+            <second ref="ExSurfBottom"/>
+            <position x="0." y="0." z="-246.24" unit="mm"/>
+        </union>
+
+        <tube name="EncapCover" rmin="55." rmax="81." z="23.5" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="EncapTube1" rmin="74." rmax="81." z="7.23" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="EncapTube2" rmin="48.5" rmax="81." z="6.22" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="EncapTube3" rmin="48.5" rmax="55.5" z="62.048" startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <tube name="EncapBottom" rmin="0." rmax="55.5" z="8." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+        <union name="Encap1">
+            <first ref="EncapCover"/>
+            <second ref="EncapTube1"/>
+            <position x="0." y="0." z="-15.365"/>
+        </union>
+        <union name="Encap2">
+            <first ref="Encap1"/>
+            <second ref="EncapTube2"/>
+            <position x="0." y="0." z="-22.09"/>
+        </union>
+        <union name="Encap3">
+            <first ref="Encap2"/>
+            <second ref="EncapTube3"/>
+            <position x="0." y="0." z="-56.224"/>
+        </union>
+        <union name="Encap">
+            <first ref="Encap3"/>
+            <second ref="EncapBottom"/>
+            <position x="0." y="0." z="-91.248"/>
+        </union>
+        <tube name="SteelBand" rmin="55.5" rmax="55.6" z="20." startphi="0" deltaphi="360" aunit="degree" lunit="mm"/>
+
+        <union name="TotalPMT">
+            <first ref="PMT"/>
+            <second ref="Encap"/>
+            <position x="0." y="0." z="-228.1" unit="mm"/>
+        </union>
+        <union name="TotalPMTWithBand">
+            <first ref="TotalPMT"/>
+            <second ref="SteelBand"/>
+            <position x="0." y="0." z="-284.334" unit="mm"/>
+        </union>
+
+        <tube name="PESupportTube" rmin="0." rmax="101.598" z="247.732" startphi="0" deltaphi="180" aunit="degree" lunit="mm"/>
+        <union name="PESupport">
+            <first ref="WindowOuter"/>
+            <second ref="PESupportTube"/>
+            <position x="0." y="0." z="-199.492" unit="mm"/>
+        </union>
+    </solids>
+
+    <structure>
+        <volume name="WindowLog">
+            <solidref ref="Window"/>
+            <materialref ref="Boro_glass"/>
+        </volume>
+        <volume name="SteelTubeLog">
+            <solidref ref="Steel"/>
+            <materialref ref="PMTShell"/>
+        </volume>
+        <volume name="MCPLog">
+            <solidref ref="MCP"/>
+            <materialref ref="Boro_glass"/>
+        </volume>
+        <volume name="AnodeLog">
+            <solidref ref="Anode"/>
+            <materialref ref="PMTShell"/>
+        </volume>
+        <volume name="MCPStandLog">
+            <solidref ref="MCPStand"/>
+            <materialref ref="Quartz"/>
+        </volume>
+        <volume name="QuartzPlatLog">
+            <solidref ref="QuartzPlat"/>
+            <materialref ref="Quartz"/>
+        </volume>
+        <volume name="KavorLog">
+            <solidref ref="Kavor"/>
+            <materialref ref="Kavor"/>
+        </volume>
+        <volume name="SteelBottomLog">
+            <solidref ref="SteelBottom"/>
+            <materialref ref="PMTShell"/>
+        </volume>
+        <volume name="PMTLog">
+            <solidref ref="PMT"/>
+            <materialref ref="Vacuum"/>
+            <physvol>
+                <volumeref ref="WindowLog"/>
+                <position x="0." y="0." z="0." unit="mm"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="MCPLog"/>
+                <position x="0." y="0." z="-108.049" unit="mm"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="AnodeLog"/>
+                <position x="0." y="0." z="-109.179" unit="mm"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="MCPStandLog"/>
+                <position x="0." y="0." z="-106.729" unit="mm"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="SteelTubeLog"/>
+                <position x="0." y="0." z="-150.979" unit="mm"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="QuartzPlatLog"/>
+                <position x="0." y="0." z="-161.117" unit="mm"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="KavorLog"/>
+                <position x="0." y="0." z="-233.4" unit="mm"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="SteelBottomLog"/>
+                <position x="0." y="0." z="-246.579" unit="mm"/>
+            </physvol>
+        </volume>
+
+        <volume name="EncapLog">
+            <solidref ref="Encap"/>
+            <materialref ref="ABS"/>
+        </volume>
+        <volume name="SteelBandLog">
+            <solidref ref="SteelBand"/>
+            <materialref ref="PMTShell"/>
+        </volume>
+
+        <volume name="TotalPMTLog">
+            <solidref ref="TotalPMTWithBand"/>
+            <materialref ref="Vacuum"/>
+            <!--
+            <physvol>
+                <volumeref ref="PMTLog"/>
+                <position x="0." y="0." z="0." unit="mm"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="EncapLog"/>
+                <position x="0." y="0." z="-228.1" unit="mm"/>
+            </physvol>
+            <physvol name="Steel_Structure_PV">
+                <volumeref ref="SteelBandLog"/>
+                <position x="0." y="0." z="-284.334" unit="mm"/>
+            </physvol>
+            -->
+            <colorref ref="Oil_color"/>
+        </volume>
+        <volume name="PEPMT">
+            <solidref ref="PESupport"/>
+            <materialref ref="Polyethylene_B"/>
+            <physvol>
+                <volumeref ref="TotalPMTLog"/>
+                <position x="0." y="0." z="0." unit="mm"/>
+            </physvol>
+            <colorref ref="Acrylic_color"/>
+        </volume>
+        <volume name="TOP">
+            <solidref ref="WorldBox"/>
+            <materialref ref="Vacuum"/>
+            <physvol>
+                <volumeref ref="PEPMT"/>
+            </physvol>
+        </volume>
+    </structure>
+
+    <setup version="1.0" name="Default">
+        <world ref="TOP"/>
+    </setup>
+</gdml>

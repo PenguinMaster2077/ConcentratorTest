@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<!DOCTYPE gdml_simple_extension [
+
+<!ENTITY Materials SYSTEM "../materials/Common_Material.xml">
+<!ENTITY Acrylic SYSTEM "../materials/Acrylic.xml">
+<!ENTITY Water SYSTEM "../materials/Water.xml">
+
+<!ENTITY PMT_Property SYSTEM "../PMTlib/GDB_6082/GDB_6082_Elec.xml">
+<!ENTITY PMT_Positions SYSTEM "PMT_Position.xml">
+<!ENTITY PMT_Gain SYSTEM "PMT_Gain.xml">
+<!ENTITY PMT_Material SYSTEM "../materials/PMT_Material.xml">
+<!ENTITY Trigger_Params SYSTEM "Trigger_Params.xml">
+
+]>
+
+<gdml_simple_extension
+	xmlns:gdml="http://cern.ch/2001/Schemas/GDML" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
+	xs:noNamespaceSchemaLocation="SimpleExtension11.xsd">
+	<define>
+		<!-- 暗箱参数设置 -->
+		<constant name="outer_box_x" value="1.400"/> <!-- 一整条边长-->
+		<constant name="outer_box_y" value="1.500"/>
+		<constant name="outer_box_z" value="0.3597"/>
+
+		<constant name="inner_box_x" value="1.380"/> <!-- 一块板子厚度为0.01m，隔了两块板子-->
+		<constant name="inner_box_y" value="1.480"/>
+		<constant name="inner_box_z" value="0.3397"/>
+		<!-- 测试PMTd底部圆环中心的三维坐标 Unit: mm-->
+		<!-- <constant name="pmt_circle_x" value="-430"/> 
+		<constant name="pmt_circle_y" value="-591.82"/> 
+		<constant name="pmt_circle_z" value="0.35"/>  -->
+
+		<!-- 测试PMT顶点的三维坐标 Unit: mm-->
+		<constant name="test_pmt_apex_x" value="-430"/> 
+		<constant name="test_pmt_apex_y" value="-384.82"/> 
+		<constant name="test_pmt_apex_z" value="0.15"/> 
+
+		<!-- 刻度PMT顶点的三维坐标 Unit: mm-->
+		<constant name="cali_pmt_apex_x" value="344.15"/> 
+		<constant name="cali_pmt_apex_y" value="446.9"/> 
+		<constant name="cali_pmt_apex_z" value="0.15"/> 
+
+	</define>
+	<!--materials-->
+	&Materials;
+	&Acrylic;
+	<!-- &Water; -->
+	&PMT_Material;
+	
+	<!--electronics-->
+	<!-- &Trigger_Params; -->
+	&PMT_Property;
+	&PMT_Gain;
+	
+	<materials>
+		<!-- 随便设定一个材料，由于没有指定RINDEX，Geant4在模拟的时候会直接吸收光子。密度、构成都不重要 -->
+		<material name="Absoring_Material" state="solid">
+			<D value="1.19"/>
+			<composite n="1" ref="Carbon"/>
+		</material>
+	</materials>
+	<solids>
+		<!-- 定义世界体积 -->
+		<box name="World_Box" x="5.0" y="5.0" z="5.0" lunit="m"/>
+		<!-- 暗箱设置-->
+		<box name="Outer_Box" x="outer_box_x" y="outer_box_y" z="outer_box_z" lunit="m"/>
+		<box name="Inner_Box" x="inner_box_x" y="inner_box_y" z="inner_box_z" lunit="m"/>
+		<!-- 定义暗箱外壳 -->
+		<subtraction name="Black_Box">
+			<first ref="Outer_Box"/>
+			<second ref="Inner_Box"/>
+		</subtraction>
+		<!-- 定义暗箱中的介质体积 -->
+		<!-- 略微缩小避免和Inner_Box重叠导致的计算过程中边界出现问题-->
+		<box name="Medium_Box" x="inner_box_x - 0.001" y="inner_box_y - 0.001" z="inner_box_z - 0.001" lunit="m"/>
+	</solids>
+
+	<structure>
+		<!-- 定义暗箱外壳-->
+		<volume name="Black_Box_Volume">
+			<materialref ref="Absoring_Material"/>
+			<solidref ref="Black_Box"/>
+		</volume>
+		<!-- 定义介质 -->
+		<volume name="Medium_Volume">
+			<materialref ref="Air"/>
+			<solidref ref="Medium_Box"/>
+			<!-- PMTs -->
+			&PMT_Positions;
+		</volume>
+		<!-- 组合起来 -->
+		<volume name="TOP">
+			<!-- World -->
+			<materialref ref="Air"/>
+			<solidref ref="World_Box"/>
+			<!-- 暗箱 -->
+			<physvol>
+				<volumeref ref="Black_Box_Volume"/>
+				<position x="0.0" y="0.0" z="0.0" unit="m"/>
+			</physvol>
+			<!-- 介质 -->
+			<physvol>
+				<volumeref ref="Medium_Volume"/>
+				<position x="0.0" y="0.0" z="0.0" unit="m"/>
+			</physvol>
+		</volume>
+	</structure>
+
+	<setup version="1.0" name="Default">
+		<world ref="TOP"/>
+	</setup>
+
+</gdml_simple_extension>

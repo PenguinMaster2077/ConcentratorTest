@@ -1,0 +1,41 @@
+<materials>
+    <!-- Lithium Isotopes Definition -->
+    <isotope name="Li6" Z="3" N="6">
+        <atom type="A" value="6."/>
+    </isotope>
+    <isotope name="Li7" Z="3" N="7">
+        <atom type="A" value="7."/>
+    </isotope>
+    <element formula="Li" name="Lithium">
+        <fraction ref="Li7" n="0.9241"/>
+        <fraction ref="Li6" n="0.0759"/>
+    </element>
+
+    <!-- Chlorine Isotope Definition -->
+    <isotope name="Cl35" Z="17" N="35">
+        <atom type="A" value="35"/>
+    </isotope>
+    <isotope name="Cl37" Z="17" N="37">
+        <atom type="A" value="37"/>
+    </isotope>
+    <element formula="Cl" name="Chlorine">
+        <fraction ref="Cl35" n="0.758"/>
+        <fraction ref="Cl37" n="0.242"/>
+    </element>
+
+    <material formula="LiCl" name="LithiumChloride">
+        <D value="2.07"/>
+        <composite ref="Li" n="1."/>
+        <composite ref="Cl" n="1."/>
+    </material>
+    <!-- Optical Property from Water -->
+    <!-- Density and Concentration from arXiv:2211.05023v2 -->
+    <material formula="LiCl" name="LiClSolution">
+        <property name="RINDEX" ref="Water_RINDEX"/>
+        <property name="ABSLENGTH" ref="Water_ABS"/>
+        <property name="RAYLEIGH" ref="Water_RAY"/>
+        <D value="1.27"/>
+        <fraction ref="LithiumChloride" n="0.453"/>
+        <fraction ref="Water" n="0.547"/>
+    </material>
+</materials>

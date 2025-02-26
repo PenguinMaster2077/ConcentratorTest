@@ -1,0 +1,21 @@
+/run/verbose 1              # 显示Geant4的基本信息
+/event/verbose 0            # 事件的详细输出
+/tracking/verbose 0        # 追踪的详细输出
+/random/setSeeds 6395570 68140546  # 设置随机种子
+
+/gps/source/add 1          # 添加粒子源
+/gps/particle opticalphoton  # 设置粒子类型为光子
+/gps/energy 3 eV            # 设置光子能量为3.0 eV
+
+/gps/pos/centre -2.165 0 29.886 cm  # 设置光源位置
+/gps/pos/type Plane       # 光源类型为面光源
+/gps/pos/shape Circle       # 设置光源形状为圆形
+/gps/pos/radius 50.0 cm     # 光源半径
+/gps/pos/rot1 0.996 0 0.087   # Cos Theta 0 Sin Theta Theta为平面与X轴夹角/旋转角度
+
+/gps/direction 0.0872 0 -0.996        # 设置光子发射方向
+
+/gps/polarization 0 0 0    # 默认极化设置
+
+/run/printProgress 10000    # 每xx步打印一次进度
+/run/beamOn 500000       # 发射xx个光子

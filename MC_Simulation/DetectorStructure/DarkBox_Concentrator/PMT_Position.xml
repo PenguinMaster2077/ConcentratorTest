@@ -1,0 +1,12 @@
+<physvol name="PMT_Test">
+        <!-- <file name="../PMTlib/GDB_6082_Concentrator/GDB_6082_Geo.gdml"/> -->
+        <file name="../PMTlib/GDB_6082_Concentrator/GDB_6082_Geo.gdml"/>
+        <position x="test_pmt_apex_x" y="test_pmt_apex_y-152" z="test_pmt_apex_z" unit="mm"/>
+        <rotation x="90.0" y="0.0" z="0.0" unit="deg"/>
+</physvol>
+
+<physvol name="PMT_Cali">
+        <file name="../PMTlib/GDB_6082/GDB_6082_Geo.gdml"/>
+        <position x="cali_pmt_apex_x+107.48023" y="cali_pmt_apex_y+107.48023" z="cali_pmt_apex_z" unit="mm"/>
+        <rotation x="-90.0" y="45.0" z="45.0" unit="deg"/>
+</physvol>

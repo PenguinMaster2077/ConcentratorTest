@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+
+
+<solids>
+    <opticalsurface name="surfCon" model="glisur" finish="polished" type="dielectric_metal" value="1.0" reflectivity="1.0"/>
+    <opticalsurface name="surf12" model="glisur" finish="polished" type="dielectric_metal" value="1.0" reflectivity="0.15"/>
+    <opticalsurface name="surf_windows" model="glisur" finish="polished" type="dielectric_metal" value="1.0" reflectivity="0.25"/>
+	<!-- 集光器 -->
+	<polycone name="ConInner" startphi="0.0" deltaphi="360.0" aunit="deg" lunit="cm">
+		<zplane rmin="0" rmax="9.876070" z="0.000000"/>
+		<!-- <zplane rmin="0" rmax="9.984800" z="0.054840"/> -->
+		<!-- <zplane rmin="0" rmax="10.085500" z="0.123650"/> -->
+		<!-- <zplane rmin="0" rmax="10.180300" z="0.200320"/> -->
+		<!-- <zplane rmin="0" rmax="10.270300" z="0.282670"/> -->
+		<!-- <zplane rmin="0" rmax="10.356100" z="0.369460"/> -->
+		<zplane rmin="0" rmax="10.438000" z="0.459840"/>
+		<!-- <zplane rmin="0" rmax="10.516500" z="0.553250"/> -->
+		<!-- <zplane rmin="0" rmax="10.591800" z="0.649220"/> -->
+		<!-- <zplane rmin="0" rmax="10.664200" z="0.747410"/> -->
+		<!-- <zplane rmin="0" rmax="10.733900" z="0.847540"/> -->
+		<!-- <zplane rmin="0" rmax="10.801000" z="0.949390"/> -->
+		<zplane rmin="0" rmax="10.865800" z="1.052770"/>
+		<!-- <zplane rmin="0" rmax="10.928400" z="1.157510"/> -->
+		<!-- <zplane rmin="0" rmax="10.988800" z="1.263490"/> -->
+		<!-- <zplane rmin="0" rmax="11.047200" z="1.370590"/> -->
+		<!-- <zplane rmin="0" rmax="11.103700" z="1.478700"/> -->
+		<!-- <zplane rmin="0" rmax="11.158500" z="1.587740"/> -->
+		<zplane rmin="0" rmax="11.211400" z="1.697630"/>
+		<!-- <zplane rmin="0" rmax="11.262800" z="1.808300"/> -->
+		<!-- <zplane rmin="0" rmax="11.312500" z="1.919690"/> -->
+		<!-- <zplane rmin="0" rmax="11.360800" z="2.031750"/> -->
+		<!-- <zplane rmin="0" rmax="11.407600" z="2.144420"/> -->
+		<zplane rmin="0" rmax="11.452900" z="2.257670"/>
+		<!-- <zplane rmin="0" rmax="11.497000" z="2.371440"/> -->
+		<!-- <zplane rmin="0" rmax="11.539700" z="2.485710"/> -->
+		<!-- <zplane rmin="0" rmax="11.581300" z="2.600420"/> -->
+		<!-- <zplane rmin="0" rmax="11.621900" z="2.715450"/> -->
+		<zplane rmin="0" rmax="11.661700" z="2.830780"/>
+		<!-- <zplane rmin="0" rmax="11.700600" z="2.946420"/> -->
+		<!-- <zplane rmin="0" rmax="11.738600" z="3.062330"/> -->
+		<!-- <zplane rmin="0" rmax="11.775800" z="3.178520"/> -->
+		<!-- <zplane rmin="0" rmax="11.812200" z="3.294960"/> -->
+		<!-- <zplane rmin="0" rmax="11.847800" z="3.411650"/> -->
+		<zplane rmin="0" rmax="11.882600" z="3.528580"/>
+		<!-- <zplane rmin="0" rmax="11.916700" z="3.645730"/> -->
+		<!-- <zplane rmin="0" rmax="11.950000" z="3.763110"/> -->
+		<!-- <zplane rmin="0" rmax="11.982500" z="3.880690"/> -->
+		<!-- <zplane rmin="0" rmax="12.014300" z="3.998470"/> -->
+		<!-- <zplane rmin="0" rmax="12.045400" z="4.116440"/> -->
+		<zplane rmin="0" rmax="12.075800" z="4.234600"/>
+		<!-- <zplane rmin="0" rmax="12.105500" z="4.352930"/> -->
+		<!-- <zplane rmin="0" rmax="12.134400" z="4.471440"/> -->
+		<!-- <zplane rmin="0" rmax="12.162800" z="4.590110"/> -->
+		<!-- <zplane rmin="0" rmax="12.190400" z="4.708940"/> -->
+		<!-- <zplane rmin="0" rmax="12.217400" z="4.827910"/> -->
+		<zplane rmin="0" rmax="12.243700" z="4.947040"/>
+		<!-- <zplane rmin="0" rmax="12.269400" z="5.066300"/> -->
+		<!-- <zplane rmin="0" rmax="12.294500" z="5.185690"/> -->
+		<!-- <zplane rmin="0" rmax="12.318900" z="5.305220"/> -->
+		<!-- <zplane rmin="0" rmax="12.342800" z="5.424870"/> -->
+		<!-- <zplane rmin="0" rmax="12.366000" z="5.544640"/> -->
+		<zplane rmin="0" rmax="12.388600" z="5.664520"/>
+		<!-- <zplane rmin="0" rmax="12.410700" z="5.784510"/> -->
+		<!-- <zplane rmin="0" rmax="12.432100" z="5.904610"/> -->
+		<!-- <zplane rmin="0" rmax="12.453000" z="6.024810"/> -->
+		<!-- <zplane rmin="0" rmax="12.473300" z="6.145100"/> -->
+		<!-- <zplane rmin="0" rmax="12.493100" z="6.265490"/> -->
+		<zplane rmin="0" rmax="12.512300" z="6.385970"/>
+		<!-- <zplane rmin="0" rmax="12.530900" z="6.506540"/> -->
+		<!-- <zplane rmin="0" rmax="12.549000" z="6.627190"/> -->
+		<!-- <zplane rmin="0" rmax="12.566600" z="6.747920"/> -->
+		<!-- <zplane rmin="0" rmax="12.583600" z="6.868720"/> -->
+		<!-- <zplane rmin="0" rmax="12.600200" z="6.989600"/> -->
+		<zplane rmin="0" rmax="12.616100" z="7.110550"/>
+		<!-- <zplane rmin="0" rmax="12.631600" z="7.231560"/> -->
+		<!-- <zplane rmin="0" rmax="12.646600" z="7.352640"/> -->
+		<!-- <zplane rmin="0" rmax="12.661100" z="7.473780"/> -->
+		<!-- <zplane rmin="0" rmax="12.675000" z="7.594980"/> -->
+		<!-- <zplane rmin="0" rmax="12.688500" z="7.716230"/> -->
+		<zplane rmin="0" rmax="12.701500" z="7.837540"/>
+		<!-- <zplane rmin="0" rmax="12.714000" z="7.958900"/> -->
+		<!-- <zplane rmin="0" rmax="12.726000" z="8.080300"/> -->
+		<!-- <zplane rmin="0" rmax="12.737600" z="8.201750"/> -->
+		<!-- <zplane rmin="0" rmax="12.748600" z="8.323250"/> -->
+		<!-- <zplane rmin="0" rmax="12.759200" z="8.444750"/> -->
+		<zplane rmin="0" rmax="12.769400" z="8.566350"/>
+		<!-- <zplane rmin="0" rmax="12.779100" z="8.687950"/> -->
+		<!-- <zplane rmin="0" rmax="12.788300" z="8.809650"/> -->
+		<!-- <zplane rmin="0" rmax="12.797100" z="8.931350"/> -->
+		<!-- <zplane rmin="0" rmax="12.805500" z="9.053050"/> -->
+		<!-- <zplane rmin="0" rmax="12.813400" z="9.174750"/> -->
+		<zplane rmin="0" rmax="12.820800" z="9.296550"/>
+		<!-- <zplane rmin="0" rmax="12.827900" z="9.418350"/> -->
+		<!-- <zplane rmin="0" rmax="12.834500" z="9.540150"/> -->
+		<!-- <zplane rmin="0" rmax="12.840600" z="9.662050"/> -->
+		<!-- <zplane rmin="0" rmax="12.846400" z="9.783850"/> -->
+		<!-- <zplane rmin="0" rmax="12.851700" z="9.905750"/> -->
+		<zplane rmin="0" rmax="12.856600" z="10.027650"/>
+		<!-- <zplane rmin="0" rmax="12.861200" z="10.149550"/> -->
+		<!-- <zplane rmin="0" rmax="12.865300" z="10.271450"/> -->
+		<!-- <zplane rmin="0" rmax="12.869000" z="10.394450"/> -->
+		<!-- <zplane rmin="0" rmax="12.872300" z="10.516350"/> -->
+		<!-- <zplane rmin="0" rmax="12.875100" z="10.638350"/> -->
+		<zplane rmin="0" rmax="12.877600" z="10.760350"/>
+		<!-- <zplane rmin="0" rmax="12.879700" z="10.882350"/> -->
+		<!-- <zplane rmin="0" rmax="12.881400" z="11.004350"/> -->
+		<!-- <zplane rmin="0" rmax="12.882800" z="11.126350"/> -->
+		<zplane rmin="0" rmax="12.883700" z="11.248250"/>
+		<zplane rmin="0" rmax="12.884200" z="11.370250"/>
+	</polycone>
+	<polycone name="ConOuter" startphi="0." deltaphi="360." aunit="deg" lunit="cm">
+		<zplane rmin="0" rmax="9.976070" z="0.000000"/>
+		<!-- <zplane rmin="0" rmax="10.084800" z="0.054840"/> -->
+		<!-- <zplane rmin="0" rmax="10.185500" z="0.123650"/> -->
+		<!-- <zplane rmin="0" rmax="10.280300" z="0.200320"/> -->
+		<!-- <zplane rmin="0" rmax="10.370300" z="0.282670"/> -->
+		<!-- <zplane rmin="0" rmax="10.456100" z="0.369460"/> -->
+		<zplane rmin="0" rmax="10.538000" z="0.459840"/>
+		<!-- <zplane rmin="0" rmax="10.616500" z="0.553250"/> -->
+		<!-- <zplane rmin="0" rmax="10.691800" z="0.649220"/> -->
+		<!-- <zplane rmin="0" rmax="10.764200" z="0.747410"/> -->
+		<!-- <zplane rmin="0" rmax="10.833900" z="0.847540"/> -->
+		<!-- <zplane rmin="0" rmax="10.901000" z="0.949390"/> -->
+		<zplane rmin="0" rmax="10.965800" z="1.052770"/>
+		<!-- <zplane rmin="0" rmax="11.028400" z="1.157510"/> -->
+		<!-- <zplane rmin="0" rmax="11.088800" z="1.263490"/> -->
+		<!-- <zplane rmin="0" rmax="11.147200" z="1.370590"/> -->
+		<!-- <zplane rmin="0" rmax="11.203700" z="1.478700"/> -->
+		<!-- <zplane rmin="0" rmax="11.258500" z="1.587740"/> -->
+		<zplane rmin="0" rmax="11.311400" z="1.697630"/>
+		<!-- <zplane rmin="0" rmax="11.362800" z="1.808300"/> -->
+		<!-- <zplane rmin="0" rmax="11.412500" z="1.919690"/> -->
+		<!-- <zplane rmin="0" rmax="11.460800" z="2.031750"/> -->
+		<!-- <zplane rmin="0" rmax="11.507600" z="2.144420"/> -->
+		<!-- <zplane rmin="0" rmax="11.552900" z="2.257670"/> -->
+		<zplane rmin="0" rmax="11.597000" z="2.371440"/>
+		<!-- <zplane rmin="0" rmax="11.639700" z="2.485710"/> -->
+		<!-- <zplane rmin="0" rmax="11.681300" z="2.600420"/> -->
+		<!-- <zplane rmin="0" rmax="11.721900" z="2.715450"/> -->
+		<!-- <zplane rmin="0" rmax="11.761700" z="2.830780"/> -->
+		<!-- <zplane rmin="0" rmax="11.800600" z="2.946420"/> -->
+		<zplane rmin="0" rmax="11.838600" z="3.062330"/>
+		<!-- <zplane rmin="0" rmax="11.875800" z="3.178520"/> -->
+		<!-- <zplane rmin="0" rmax="11.912200" z="3.294960"/> -->
+		<!-- <zplane rmin="0" rmax="11.947800" z="3.411650"/> -->
+		<!-- <zplane rmin="0" rmax="11.982600" z="3.528580"/> -->
+		<!-- <zplane rmin="0" rmax="12.016700" z="3.645730"/> -->
+		<zplane rmin="0" rmax="12.050000" z="3.763110"/>
+		<!-- <zplane rmin="0" rmax="12.082500" z="3.880690"/> -->
+		<!-- <zplane rmin="0" rmax="12.114300" z="3.998470"/> -->
+		<!-- <zplane rmin="0" rmax="12.145400" z="4.116440"/> -->
+		<!-- <zplane rmin="0" rmax="12.175800" z="4.234600"/> -->
+		<!-- <zplane rmin="0" rmax="12.205500" z="4.352930"/> -->
+		<zplane rmin="0" rmax="12.234400" z="4.471440"/>
+		<!-- <zplane rmin="0" rmax="12.262800" z="4.590110"/> -->
+		<!-- <zplane rmin="0" rmax="12.290400" z="4.708940"/> -->
+		<!-- <zplane rmin="0" rmax="12.317400" z="4.827910"/> -->
+		<!-- <zplane rmin="0" rmax="12.343700" z="4.947040"/> -->
+		<!-- <zplane rmin="0" rmax="12.369400" z="5.066300"/> -->
+		<zplane rmin="0" rmax="12.394500" z="5.185690"/>
+		<!-- <zplane rmin="0" rmax="12.418900" z="5.305220"/> -->
+		<!-- <zplane rmin="0" rmax="12.442800" z="5.424870"/> -->
+		<!-- <zplane rmin="0" rmax="12.466000" z="5.544640"/> -->
+		<!-- <zplane rmin="0" rmax="12.488600" z="5.664520"/> -->
+		<!-- <zplane rmin="0" rmax="12.510700" z="5.784510"/> -->
+		<zplane rmin="0" rmax="12.532100" z="5.904610"/>
+		<!-- <zplane rmin="0" rmax="12.553000" z="6.024810"/> -->
+		<!-- <zplane rmin="0" rmax="12.573300" z="6.145100"/> -->
+		<!-- <zplane rmin="0" rmax="12.593100" z="6.265490"/> -->
+		<!-- <zplane rmin="0" rmax="12.612300" z="6.385970"/> -->
+		<!-- <zplane rmin="0" rmax="12.630900" z="6.506540"/> -->
+		<zplane rmin="0" rmax="12.649000" z="6.627190"/>
+		<!-- <zplane rmin="0" rmax="12.666600" z="6.747920"/> -->
+		<!-- <zplane rmin="0" rmax="12.683600" z="6.868720"/> -->
+		<!-- <zplane rmin="0" rmax="12.700200" z="6.989600"/> -->
+		<!-- <zplane rmin="0" rmax="12.716100" z="7.110550"/> -->
+		<!-- <zplane rmin="0" rmax="12.731600" z="7.231560"/> -->
+		<zplane rmin="0" rmax="12.746600" z="7.352640"/>
+		<!-- <zplane rmin="0" rmax="12.761100" z="7.473780"/> -->
+		<!-- <zplane rmin="0" rmax="12.775000" z="7.594980"/> -->
+		<!-- <zplane rmin="0" rmax="12.788500" z="7.716230"/> -->
+		<!-- <zplane rmin="0" rmax="12.801500" z="7.837540"/> -->
+		<!-- <zplane rmin="0" rmax="12.814000" z="7.958900"/> -->
+		<zplane rmin="0" rmax="12.826000" z="8.080300"/>
+		<!-- <zplane rmin="0" rmax="12.837600" z="8.201750"/> -->
+		<!-- <zplane rmin="0" rmax="12.848600" z="8.323250"/> -->
+		<!-- <zplane rmin="0" rmax="12.859200" z="8.444750"/> -->
+		<!-- <zplane rmin="0" rmax="12.869400" z="8.566350"/> -->
+		<!-- <zplane rmin="0" rmax="12.879100" z="8.687950"/> -->
+		<zplane rmin="0" rmax="12.888300" z="8.809650"/>
+		<!-- <zplane rmin="0" rmax="12.897100" z="8.931350"/> -->
+		<!-- <zplane rmin="0" rmax="12.905500" z="9.053050"/> -->
+		<!-- <zplane rmin="0" rmax="12.913400" z="9.174750"/> -->
+		<!-- <zplane rmin="0" rmax="12.920800" z="9.296550"/> -->
+		<!-- <zplane rmin="0" rmax="12.927900" z="9.418350"/> -->
+		<zplane rmin="0" rmax="12.934500" z="9.540150"/>
+		<!-- <zplane rmin="0" rmax="12.940600" z="9.662050"/> -->
+		<!-- <zplane rmin="0" rmax="12.946400" z="9.783850"/> -->
+		<!-- <zplane rmin="0" rmax="12.951700" z="9.905750"/> -->
+		<!-- <zplane rmin="0" rmax="12.956600" z="10.027650"/> -->
+		<!-- <zplane rmin="0" rmax="12.961200" z="10.149550"/> -->
+		<zplane rmin="0" rmax="12.965300" z="10.271450"/>
+		<!-- <zplane rmin="0" rmax="12.969000" z="10.394450"/> -->
+		<!-- <zplane rmin="0" rmax="12.972300" z="10.516350"/> -->
+		<!-- <zplane rmin="0" rmax="12.975100" z="10.638350"/> -->
+		<!-- <zplane rmin="0" rmax="12.977600" z="10.760350"/> -->
+		<!-- <zplane rmin="0" rmax="12.979700" z="10.882350"/> -->
+		<zplane rmin="0" rmax="12.981400" z="11.004350"/>
+		<!-- <zplane rmin="0" rmax="12.982800" z="11.126350"/> -->
+		<zplane rmin="0" rmax="12.983700" z="11.248250"/>
+		<zplane rmin="0" rmax="12.984200" z="11.370250"/>
+	</polycone>
+	<subtraction name="CirConInner">
+		<first ref="ConOuter"/>
+		<second ref="ConInner"/>
+	</subtraction>
+	<polycone name="CylinderOuter" startphi="0." deltaphi="360." aunit="deg" lunit="cm">
+		<zplane rmin="0.0" rmax="13.5" z="0.0"/>
+		<zplane rmin="0.0" rmax="13.5" z="11.331250"/>
+	</polycone>
+	<subtraction name="CirConOuter">
+		<first ref="CylinderOuter"/>
+		<second ref="ConOuter"/>
+	</subtraction>
+	<union name="CirCon">
+		<first ref="CirConInner"/>
+		<second ref="CirConOuter"/>
+	</union>
+	<!-- Cathode -->
+	<genericPolycone name = "thesphere" startphi="0" deltaphi="360" aunit="degree" lunit= "mm">
+		<rzpoint    r="0" z="152"/>
+		<rzpoint    r="35.14256" z="147"/>
+		<rzpoint    r="49.1936" z="142"/>
+		<rzpoint    r="59.624" z="137"/>
+		<rzpoint    r="68.1176" z="132"/>
+		<rzpoint    r="75.3324" z="127"/>
+		<rzpoint    r="81.6088" z="122"/>
+		<rzpoint    r="87.5416" z="117"/>
+		<rzpoint    r="91.5896" z="112"/>
+		<rzpoint    r="94.8456" z="107"/>
+		<rzpoint    r="97.4516" z="102"/>
+		<rzpoint    r="99.4976" z="97"/>
+		<rzpoint    r="101.0428" z="92"/>
+		<rzpoint    r="102.1268" z="87"/>
+		<rzpoint    r="102.7744" z="82"/>
+		<rzpoint    r="102.9996" z="77"/>
+		<rzpoint    r="102.8076" z="72"/>
+		<rzpoint    r="102.1944" z="67"/>
+		<rzpoint    r="101.146" z="62"/>
+		<rzpoint    r="99.6388" z="57"/>
+		<rzpoint    r="97.6348" z="52"/>
+		<rzpoint    r="95.0764" z="47"/>
+		<rzpoint    r="91.8768" z="42"/>
+		<rzpoint    r="87.8996" z="37"/>
+		<rzpoint    r="82.912" z="32"/>
+		<rzpoint    r="76.466" z="27"/>
+		<rzpoint    r="66.3904" z="22"/>
+		<rzpoint    r="59.404" z="17"/>
+		<rzpoint    r="55.3568" z="12"/>
+		<rzpoint    r="52.8468" z="7"/>
+		<rzpoint    r="51.45" z="2"/>
+		<rzpoint    r="50.8" z="0"/>    
+		<rzpoint r="0" z="0"/>
+	</genericPolycone>
+	<genericPolycone name = "cathode" startphi="0" deltaphi="360" aunit="degree" lunit= "mm">
+		<rzpoint     r="0" z="150"/>
+		<rzpoint     r="34.85684" z="145"/>
+		<rzpoint     r="48.7852" z="140"/>
+		<rzpoint     r="59.1184" z="135"/>
+		<rzpoint     r="67.5276" z="130"/>
+		<rzpoint     r="74.666" z="125"/>
+		<rzpoint     r="80.8704" z="120"/>
+		<rzpoint     r="85.964" z="115"/>
+		<rzpoint     r="89.7724" z="110"/>
+		<rzpoint     r="92.8244" z="105"/>
+		<rzpoint     r="95.2472" z="100"/>
+		<rzpoint     r="97.1228" z="95"/>
+		<rzpoint     r="98.5044" z="90"/>
+		<rzpoint     r="99.4272" z="85"/>
+		<rzpoint     r="99.9132" z="80"/>
+		<rzpoint     r="99.9724" z="75"/>
+		<rzpoint     r="99.6068" z="70"/>
+		<rzpoint     r="98.808" z="65"/>
+		<rzpoint     r="97.5576" z="60"/>
+		<rzpoint     r="95.8248" z="55"/>
+		<rzpoint     r="93.562" z="50"/>
+		<rzpoint     r="90.6968" z="45"/>
+		<rzpoint     r="87.1168" z="40"/>
+		<rzpoint     r="82.6384" z="35"/>
+		<rzpoint     r="76.9272" z="30"/>
+		<rzpoint     r="69.2448" z="25"/>
+		<rzpoint     r="59.6796" z="20"/>
+		<rzpoint     r="54.7516" z="15"/>
+		<rzpoint     r="51.7016" z="10"/>
+		<rzpoint     r="49.8892" z="5"/>
+		<rzpoint     r="49.0716" z="0"/>    
+		<rzpoint     r="0" z="0"/>
+	</genericPolycone>
+	<genericPolycone name="thepolycone" startphi="0" deltaphi="360" aunit="degree" lunit= "mm">
+		<rzpoint r="103" z="80"/>
+		<rzpoint r="103" z="64"/>
+		<rzpoint r="103" z="48"/>
+		<rzpoint r="103" z="32"/>
+		<rzpoint r="103" z="16"/>
+		<rzpoint r="103" z="8"/>
+		<rzpoint r="64" z="0"/>
+		<rzpoint r="50.8" z="-4"/>
+		<rzpoint r="50.8" z="-8"/>
+		<rzpoint r="50.8" z="-12"/>
+		<rzpoint r="50.5668" z="-16"/>
+		<rzpoint r="49.8569" z="-20"/>
+		<rzpoint r="48.6392" z="-24"/>
+		<rzpoint r="46.8524" z="-28"/>
+		<rzpoint r="44.3884" z="-32"/>
+		<rzpoint r="41.0448" z="-36"/>
+		<rzpoint r="36.384" z="-40"/>
+		<rzpoint r="29.0238" z="-44"/>
+		<rzpoint r="20.60792" z="-48"/>
+		<rzpoint r="16.4" z="-52"/>
+		<rzpoint r="16.4" z="-56"/>
+		<rzpoint r="16.4" z="-60"/>
+		<rzpoint r="16.35604" z="-64"/>
+		<rzpoint r="15.55376" z="-68"/>
+		<rzpoint r="13.57644" z="-72"/>
+		<rzpoint r="9.73244" z="-76"/>
+		<rzpoint r="0" z="-76"/>
+	</genericPolycone>
+	<subtraction name="window">
+		<first ref="thesphere"/>
+		<second ref="thepolycone"/>
+	</subtraction>
+	<union name="_8PMT">
+		<first ref="thesphere"/>
+		<second ref="thepolycone"/>
+	</union>
+	<!-- 组合起来 -->
+	<union name="_8PMTCon">
+		<first ref="thesphere"/>
+		<second ref="CirCon"/>
+		<position x="0.0" y="0.0" z="102" unit="mm"/>
+	</union>
+</solids>
+
+<structure>
+	<!-- 集光器 -->
+		<!-- 反射膜 -->
+		<volume name="CirConInnerLog">
+			<materialref ref="Absoring_Material" /> <!-- 定义在PMT_Material.xml中，实际上就是纯铝-->
+			<solidref ref="CirConInner" />
+		</volume>
+		<!-- 反射行为由skinsurface承担 -->
+		<skinsurface name="skinsrfc" surfaceproperty="surfCon">
+			<volumeref ref="CirConInnerLog"/>
+		</skinsurface>
+		<!-- ABS主体 -->
+		<volume name="CirConOuterLog">
+			<materialref ref="Absoring_Material" />
+			<solidref ref="CirConOuter" />
+		</volume>
+		<!-- 组装 -->
+		<volume name="CirConLog">
+			<solidref ref="CirCon" />
+			<materialref ref="Absoring_Material" />
+			<physvol>
+				<volumeref ref="CirConInnerLog" />
+			</physvol>
+			<physvol>
+				<volumeref ref="CirConOuterLog" />
+			</physvol>
+		</volume>
+	<!-- Cathode -->
+	<!-- <volume name="CathodeLog">
+		<materialref ref="Absoring_Material"/>
+		<solidref ref="cathode"/>
+	</volume> -->
+	<!-- <skinsurface name="skinsrf1" surfaceproperty="surf12">
+		<volumeref ref="CathodeLog"/>
+	</skinsurface> -->
+	<!-- Window -->
+	<volume name="WindowLog">
+		<materialref ref="Absoring_Material"/>
+		<solidref ref="thesphere"/>
+		<!-- <materialref ref="Absoring_Material" />
+		<solidref ref="thesphere" /> -->
+		<!-- <physvol>
+			<volumeref ref="CathodeLog"/>
+		</physvol> -->
+	</volume>
+	<skinsurface name="skinsrf1_windows" surfaceproperty="surf_windows">
+		<volumeref ref="WindowLog"/>
+	</skinsurface>
+	<!-- Body -->
+		<!-- <volume name="BodyLog">
+			<materialref ref="PMTShell"/>
+			<solidref ref="thepolycone"/>
+		</volume> -->
+	<!-- PMT -->
+	<volume name="_8inPMT_Con">
+		<materialref ref="Absoring_Material"/>
+		<!-- <solidref ref="window"/> -->
+		<solidref ref="_8PMTCon" />
+		<physvol>
+			<volumeref ref="WindowLog"/>
+		</physvol>
+		<!-- <physvol>
+			<volumeref ref="BodyLog"/>
+		</physvol> -->
+		<physvol>
+			<volumeref ref="CirConLog"/>
+			<position x="0.0" y="0.0" z="102" unit="mm"/>
+		</physvol>
+	</volume>
+</structure>
+
+<setup version="1.0" name="Default">
+    <world ref="_8inPMT_Con"/>
+</setup>
+
+</gdml_simple_extension>

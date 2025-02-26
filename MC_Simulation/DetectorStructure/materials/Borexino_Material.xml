@@ -1,0 +1,396 @@
+<define>
+    <!-- ********** Refractive index ********** -->
+    <matrix 
+        name="LAB_bis_SciYield" 
+        coldim="1" 
+        values="10000./MeV"
+    />
+    <matrix name="LAB_bis_RINDEX" coldim="2"
+    values="5.916*eV    1.64007
+        5.647*eV    1.62064
+        5.522*eV    1.61214
+        5.177*eV    1.59049
+        4.437*eV    1.55186
+        3.882*eV    1.52896
+        3.451*eV    1.51424
+        3.106*eV    1.50420
+        3.067*eV    1.50315
+        2.833*eV    1.49727
+        2.515*eV    1.49022
+        2.268*eV    1.48545
+        2.143*eV    1.48325
+        1.981*eV    1.48064
+        1.941*eV    1.48004
+        1.827*eV    1.47838
+        1.726*eV    1.47700
+        1.635*eV    1.47584"
+    />
+
+    <!-- ********** Refractive index end ********** -->
+    <!-- LAB scintillation fast time constant -->
+    <matrix 
+        name="LAB_bis_FastTimeConst" 
+        coldim="1" 
+        values="45.4*ns"
+    />
+    <matrix 
+        name="LAB_bis_RisingConst" 
+        coldim="1" 
+        values="2.14*ns"
+    />
+    <!-- LAB scintillation spectrum -->
+    <matrix 
+        name="LAB_bis_SciComp" 
+        coldim="2"
+        values="2.3525*eV  19457                                                        
+            2.3575*eV  20446.5
+            2.3625*eV  21436
+            2.3675*eV  22425.5
+            2.3725*eV  23415
+            2.3775*eV  24404.5
+            2.3825*eV  25394
+            2.3875*eV  26383.5
+            2.3925*eV  27373
+            2.3975*eV  28362.5
+            2.4025*eV  29352
+            2.4075*eV  30341.5
+            2.4125*eV  31331
+            2.4175*eV  32320.5
+            2.4225*eV  33310
+            2.4275*eV  34299.5
+            2.4325*eV  35289
+            2.4375*eV  36560
+            2.4425*eV  38956.7
+            2.4475*eV  41353.5
+            2.4525*eV  43750.2
+            2.4575*eV  46147
+            2.4625*eV  48543.7
+            2.4675*eV  50940.5
+            2.4725*eV  53337.2
+            2.4775*eV  55734
+            2.4825*eV  58130.7
+            2.4875*eV  60527.5
+            2.4925*eV  62924.2
+            2.4975*eV  65321
+            2.5025*eV  67786.2
+            2.5075*eV  71039.5
+            2.5125*eV  74292.7
+            2.5175*eV  77546
+            2.5225*eV  80799.2
+            2.5275*eV  84052.4
+            2.5325*eV  87305.7
+            2.5375*eV  90558.9
+            2.5425*eV  93812.2
+            2.5475*eV  97065.4
+            2.5525*eV  100319
+            2.5575*eV  103585
+            2.5625*eV  106857
+            2.5675*eV  110130
+            2.5725*eV  113402
+            2.5775*eV  116675
+            2.5825*eV  119947
+            2.5875*eV  123220
+            2.5925*eV  126492
+            2.5975*eV  129765
+            2.6025*eV  133037
+            2.6075*eV  136310
+            2.6125*eV  139582
+            2.6175*eV  142855
+            2.6225*eV  146127
+            2.6275*eV  150477
+            2.6325*eV  155546
+            2.6375*eV  160615
+            2.6425*eV  165683
+            2.6475*eV  170752
+            2.6525*eV  176940
+            2.6575*eV  185303
+            2.6625*eV  193666
+            2.6675*eV  202028
+            2.6725*eV  210391
+            2.6775*eV  218753
+            2.6825*eV  227277
+            2.6875*eV  235939
+            2.6925*eV  244601
+            2.6975*eV  253262
+            2.7025*eV  261924
+            2.7075*eV  270586
+            2.7125*eV  279248
+            2.7175*eV  287909
+            2.7225*eV  296571
+            2.7275*eV  305233
+            2.7325*eV  313894
+            2.7375*eV  322556
+            2.7425*eV  331218
+            2.7475*eV  339879
+            2.7525*eV  346598
+            2.7575*eV  352891
+            2.7625*eV  359183
+            2.7675*eV  365475
+            2.7725*eV  371768
+            2.7775*eV  377943
+            2.7825*eV  381300
+            2.7875*eV  384656
+            2.7925*eV  388013
+            2.7975*eV  391370
+            2.8025*eV  394727  
+            2.8075*eV  398084
+            2.8125*eV  401441
+            2.8175*eV  404798
+            2.8225*eV  410152
+            2.8275*eV  418765
+            2.8325*eV  427378
+            2.8375*eV  435991
+            2.8425*eV  444604
+            2.8475*eV  453217
+            2.8525*eV  461830
+            2.8575*eV  472311
+            2.8625*eV  486416
+            2.8675*eV  500522
+            2.8725*eV  514627
+            2.8775*eV  528784
+            2.8825*eV  544174
+            2.8875*eV  559564
+            2.8925*eV  574955
+            2.8975*eV  590345
+            2.9025*eV  605735
+            2.9075*eV  618436
+            2.9125*eV  629872
+            2.9175*eV  641307
+            2.9225*eV  652743
+            2.9275*eV  664178
+            2.9325*eV  675613
+            2.9375*eV  680712
+            2.9425*eV  683584
+            2.9475*eV  686457
+            2.9525*eV  689329
+            2.9575*eV  692201
+            2.9625*eV  690831
+            2.9675*eV  687463
+            2.9725*eV  684096
+            2.9775*eV  680728
+            2.9825*eV  677361
+            2.9875*eV  673993
+            2.9925*eV  670626
+            2.9975*eV  667113
+            3.0025*eV  663430
+            3.0075*eV  659747
+            3.0125*eV  656064
+            3.0175*eV  652381
+            3.0225*eV  649686
+            3.0275*eV  651492
+            3.0325*eV  653298
+            3.0375*eV  655104
+            3.0425*eV  656910
+            3.0475*eV  658715
+            3.0525*eV  662019
+            3.0575*eV  665652
+            3.0625*eV  669285
+            3.0675*eV  672918
+            3.0725*eV  676551
+            3.0775*eV  680184
+            3.0825*eV  683817
+            3.0875*eV  687449
+            3.0925*eV  691082
+            3.0975*eV  690888
+            3.1025*eV  686549
+            3.1075*eV  682209
+            3.1125*eV  677870
+            3.1175*eV  673531
+            3.1225*eV  664802
+            3.1275*eV  650489
+            3.1325*eV  636175
+            3.1375*eV  621861
+            3.1425*eV  607547
+            3.1475*eV  587440
+            3.1525*eV  566390
+            3.1575*eV  545340
+            3.1625*eV  520261
+            3.1675*eV  489138
+            3.1725*eV  458566
+            3.1775*eV  436620
+            3.1825*eV  414675
+            3.1875*eV  392729
+            3.1975*eV  347601
+            3.2025*eV  324841
+            3.2075*eV  302081
+            3.2125*eV  280712
+            3.2175*eV  261817
+            3.2225*eV  242921
+            3.2275*eV  224025
+            3.2325*eV  205487
+            3.2375*eV  189566
+            3.2425*eV  173645
+            3.2475*eV  157724
+            3.2525*eV  145724
+            3.2575*eV  138324
+            3.2625*eV  130925
+            3.2675*eV  123525
+            3.2725*eV  116126
+            3.2775*eV  108727
+            3.2825*eV  103231
+            3.2875*eV  97995.9
+            3.2925*eV  92760.3
+            3.2975*eV  87524.6
+            3.3025*eV  82289
+            3.3075*eV  77053.4
+            3.3125*eV  71817.8
+            3.3175*eV  69768.8
+            3.3225*eV  67997
+            3.3275*eV  66225.1
+            3.3325*eV  64453.3
+            3.3375*eV  62681.4
+            3.3425*eV  60909.6
+            3.3475*eV  59137.7
+            3.3525*eV  57365.8
+            3.3575*eV  55594
+            3.3625*eV  53822.1
+            3.3675*eV  52050.3
+            3.3725*eV  50278.4
+            3.3775*eV  49496.4
+            3.3825*eV  49492.1
+            3.3875*eV  49487.8
+            3.3925*eV  49483.5
+            3.3975*eV  49479.2
+            3.4025*eV  49474.9
+            3.4075*eV  49470.6
+            3.4125*eV  49466.3
+            3.4175*eV  49462
+            3.4225*eV  49457.7
+            3.4275*eV  49453.4
+            3.4325*eV  49449.1
+            3.4375*eV  49444.8
+            3.4425*eV  49440.5
+            3.4475*eV  49436.3
+            3.4525*eV  49432
+            3.4575*eV  49427.7
+            3.4625*eV  48944.9 
+            3.4675*eV  48086.1
+            3.4725*eV  47227.4
+            3.4775*eV  46368.6
+            3.4825*eV  45509.8
+            3.4875*eV  44651.1
+            3.4925*eV  43792.3
+            3.4975*eV  42933.6
+            3.5025*eV  42074.8
+            3.5075*eV  41216.1
+            3.5125*eV  40357.3
+            3.5175*eV  39498.5
+            3.5225*eV  38639.8
+            3.5275*eV  37781
+            3.5325*eV  37230
+            3.5375*eV  37226
+            3.5425*eV  37222.1
+            3.5475*eV  37218.1
+            3.5525*eV  37214.1
+            3.5575*eV  37210.1
+            3.5625*eV  37206.2
+            3.5675*eV  37202.2
+            3.5725*eV  37198.2
+            3.5775*eV  36761
+            3.5825*eV  35954.8
+            3.5875*eV  35148.5
+            3.5925*eV  34342.3
+            3.5975*eV  33536.1
+            3.6025*eV  32729.8
+            3.6075*eV  31923.6
+            3.6125*eV  31117.4
+            3.6175*eV  30311.1
+            3.6225*eV  29504.9
+            3.6275*eV  28698.6
+            3.6325*eV  27892.4"
+                
+    />
+    <!-- ********** Absorption length ********** -->
+    <matrix 
+        name="LAB_bis_ABS" 
+        coldim="2" 
+        values="3.38*eV         0.11*m
+                3.37*eV         0.11*m
+                3.34*eV         0.27*m
+                3.28*eV         0.88*m
+                3.18*eV         2.89*m
+                3.062650602*eV     7.914755439*m
+                2.88372093*eV    24.58244069*m
+                2.757049892*eV     32.19678444*m
+                2.639667705*eV     41.41784514*m"
+        />
+
+    <!-- ********** Absorption length end ********** -->  
+    <!-- ********** Rayleigh scattering length ********** -->
+    <matrix 
+        name="LAB_bis_RAY" 
+        coldim="2" 
+        values="3.687*eV            73.046*m
+                3.313*eV            121.212*m
+                3.068*eV            176.678*m
+                2.792*eV            291.545*m
+                2.627*eV            366.300*m"
+    />
+    <!-- Scintillation resolution scale -->
+    <matrix 
+        name="LAB_bis_Res" 
+        coldim="1" 
+        values="1.0"
+    />
+    <!-- Scintillation fast component ratio -->
+    <matrix 
+        name="LAB_bis_YieldRatio" 
+        coldim="1" 
+        values="1.0"
+    />
+    <!-- LAB Birks' constant -->
+    <matrix 
+        name="LAB_bis_BIRKS" 
+        coldim="1" 
+        values="0.165*mm/MeV"
+    />
+</define>
+
+<materials>
+    <material formula="Al" name="AlShell">
+        <composite n="1" ref="Aluminium"/>
+        <D value="2.70"/>
+    </material>
+    <material formula="mumetal" name="MuMetal">
+        <fraction n="0.80" ref="Nickel"/>
+        <fraction n="0.15" ref="Iron"/>
+        <fraction n="0.05" ref="Molybdenum"/>
+        <D value="8.8"/>
+    </material>
+    
+    <material formula="nylon" name="Nylon6">
+        <composite n="6" ref="Carbon"/>
+        <composite n="10" ref="Hydrogen"/>
+        <composite n="1" ref="Oxygen"/>
+        <composite n="1" ref="Nitrogen"/>
+        <D value="1.15"/>
+    </material>
+    <material formula="C9H12" name="PPOScintillator">
+        <property name="RINDEX" ref="LAB_bis_RINDEX"/>
+        <property name="SCINTILLATIONYIELD" ref="LAB_bis_SciYield"/>
+        <property name="FASTCOMPONENT" ref="LAB_bis_SciComp"/>
+        <property name="RESOLUTIONSCALE" ref="LAB_bis_Res"/>
+        <property name="FASTTIMECONSTANT" ref="LAB_bis_FastTimeConst"/>
+        <property name="FASTSCINTILLATIONRISETIME" ref="LAB_bis_RisingConst"/>
+        <property name="YIELDRATIO" ref="LAB_bis_YieldRatio"/>
+        <property name="ABSLENGTH" ref="LAB_bis_ABS"/>
+        <property name="RAYLEIGH" ref="LAB_bis_RAY"/>
+        <ionisation name="BirksConstant" ref="LAB_bis_BIRKS"/>
+        <D value="0.88"/>
+        <composite n="9" ref="Carbon"/>
+        <composite n="12" ref="Hydrogen"/>
+    </material>
+    <material formula="DMP" name="DMPBuffer">
+        <property name="RINDEX" ref="LAB_bis_RINDEX"/>
+        <property name="ABSLENGTH" ref="LAB_bis_ABS"/>
+        <property name="RAYLEIGH" ref="LAB_bis_RAY"/>
+        <D value="0.88"/>
+        <composite n="9" ref="Carbon"/>
+        <composite n="12" ref="Hydrogen"/>
+    </material>
+    <material formula="C2H4" name="Tyvek">
+        <composite n="2" ref="Carbon"/>
+        <composite n="4" ref="Hydrogen"/>
+        <D value="0.94"/>
+    </material>
+</materials>

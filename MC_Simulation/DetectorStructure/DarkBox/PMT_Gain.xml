@@ -1,0 +1,8 @@
+<extension>
+	<PMT name="PMT_0">
+	<property name="Gain" value="155"/>
+	<property name="DarkNoiseRate" value="5800"/>
+	<property name="Model" model="GDB_6082"/>
+	<property name="QECorrection" value="1.0"/>
+	</PMT>
+</extension>

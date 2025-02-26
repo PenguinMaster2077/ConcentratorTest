@@ -1,0 +1,74 @@
+<define>
+    <!-- <matrix name="Boro_RINDEX" coldim="2" values="2.96*eV 1.48"/> -->
+    <matrix 
+        name="Boro_RINDEX" 
+        coldim="2" 
+        values="2.96*eV 1.48
+                5.00*eV 1.48"
+    />
+    <matrix 
+        name="Boro_ABS" 
+        coldim="2" 
+        values="3.687*eV            526.316*m
+                3.313*eV            689.655*m
+                3.068*eV            359.712*m
+                2.792*eV            146.843*m
+                2.627*eV            109.769*m"
+    />
+</define>
+
+<materials>
+    <material formula="Fe" name="PMTShell">
+        <D value="7.9"/>
+        <fraction n="0.6575" ref="Iron"/>
+        <fraction n="0.17" ref="Chromium"/>
+        <fraction n="0.12" ref="Nickel"/>
+        <fraction n="0.025" ref="Molybdenum"/>
+        <fraction n="0.02" ref="Manganese"/>
+        <fraction n="0.0075" ref="Silicon"/>
+    </material>
+
+    <material formula="Cs" name="CsPMT">
+        <D value="1.8785"/>
+        <composite n="1" ref="Cesium"/>
+    </material>
+
+    <material formula="SiO2" name="Boro_glass">
+        <property name="RINDEX" ref="Boro_RINDEX"/>
+        <property name="ABSLENGTH" ref="Boro_ABS"/>
+        <D value="2.23"/>
+        <fraction n="0.3547" ref="Silicon"/>
+        <fraction n="0.0534" ref="Boron"/>
+        <fraction n="0.0106" ref="Aluminium"/>
+        <fraction n="0.0371" ref="Sodium"/>
+        <fraction n="0.5442" ref="Oxygen"/>
+    </material>
+
+    <material formula="SiO2" name="Quartz">
+        <D value="2.65"/>
+        <composite n="1" ref="Silicon"/>
+        <composite n="2" ref="Oxygen"/>
+    </material>
+
+    <material name="Kavor">
+        <D value="8.35"/>
+        <fraction n="0.535" ref="Iron"/>
+        <fraction n="0.285" ref="Nickel"/>
+        <fraction n="0.175" ref="Cobalt"/>
+        <fraction n="0.003" ref="Manganese"/>
+        <fraction n="0.002" ref="Silicon"/>
+    </material>
+
+    <material formula="C15H17N" name="ABS">
+        <D value="1.12"/>
+        <composite n="15" ref="Carbon"/>
+        <composite n="17" ref="Hydrogen"/>
+        <composite n="1" ref="Nitrogen"/>
+    </material>
+
+    <material formula="Al" name="AlConcentrator">
+        <D value="2.7"/>
+        <composite n="1" ref="Aluminium"/>
+    </material>
+
+</materials>

@@ -1,0 +1,21 @@
+/run/verbose 1
+/event/verbose 0
+/tracking/verbose 3
+# 添加一个粒子源
+/gps/source/add 1
+# 释放光子
+/gps/particle opticalphoton
+# 粒子的能量
+/gps/energy 3 eV
+# 粒子源类型
+/gps/pos/type Point
+# 粒子源位置
+/gps/pos/centre -430 -383 0.15 mm
+# 粒子的方向
+/gps/direction 0 -1 0 
+# 粒子的极化
+/gps/polarization 0 0 0 
+
+# 运行
+/run/printProgress 10000
+/run/beamOn 100

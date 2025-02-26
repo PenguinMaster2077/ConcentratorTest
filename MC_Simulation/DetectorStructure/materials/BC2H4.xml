@@ -1,0 +1,141 @@
+<define>
+
+
+	<!-- ********** Refractive index ********** -->
+
+
+
+
+	<!-- The rindex of BC2H4 -->
+	<matrix 
+		name="BC2H4_RINDEX" 
+		coldim="2" 
+		values="5.916*eV			1.68104
+				5.647*eV			1.65064
+				5.522*eV			1.63774
+				5.177*eV			1.60611
+				4.437*eV			1.55492
+				3.882*eV			1.52851
+				3.451*eV			1.51352
+				3.106*eV			1.50434
+				3.067*eV			1.50344
+				2.833*eV			1.49857
+				2.515*eV			1.49322
+				2.268*eV			1.48993
+				2.143*eV			1.48851
+				1.981*eV			1.48690
+				1.941*eV			1.48654
+				1.827*eV			1.48558
+				1.726*eV			1.48481
+				1.635*eV			1.48419"
+
+	/>
+    <!--matrix 
+    name="BC2H4_RINDEX" 
+    coldim="2" 
+    values="5.916*eV    1.48                                                                                                                           
+        1.635*eV    1.48"
+  /--> 
+
+
+<!-- ********** Refractive index end ********** -->
+
+
+	<!-- ********** Absorption length ********** -->
+
+
+	<matrix 
+		name="BC2H4_ABS" 
+		coldim="2" 
+		values="3.26941*eV		6.302*mm
+				3.35777*eV		4.551*mm
+				3.45104*eV		2.643*mm
+				3.54964*eV		1.829*mm
+				3.65404*eV		1.813*mm
+				3.76477*eV		0.7457*mm
+				3.88242*eV		0.5837*mm
+				4.00766*eV		0.5641*mm
+				4.14125*eV		0.1422*mm
+				4.28405*eV		0.3344*mm
+				4.43705*eV		0.060751*mm"
+	/>
+    <!--matrix        
+    name="BC2H4_ABS" 
+    coldim="2"   
+    values="3.26941*eV    6950000000.302*mm
+        3.35777*eV    464090000000.551*mm
+        3.45104*eV    292090000000.643*mm
+        3.54964*eV    183090000000.829*mm
+        3.65404*eV    139090000000.813*mm
+        3.76477*eV    9800000000.7457*mm
+        3.88242*eV    8600000000.5837*mm
+        4.00766*eV    6400000000.5641*mm
+        4.14125*eV    4200000000.1422*mm
+        4.28405*eV    1400000000.3344*mm
+        4.43705*eV    300000000.60751*mm"
+  /--> 	
+	<!-- ********** Absorption length end ********** -->
+
+	<!-- ********** Rayleigh scattering length ********** -->
+
+		<matrix 
+		name="BC2H4_RAY" 
+		coldim="2" 
+		values="1.55*eV             500.0*m
+                1.7714*eV           300.0*m
+                2.102*eV            170.0*m
+                2.255*eV            100.0*m
+                2.531*eV            62.0*m
+                2.884*eV            42.0*m
+                3.024*eV            30.0*m
+                4.133*eV            7.6*m
+                6.20*eV             0.85*m
+                10.33*eV            0.85*m
+                15.5*eV             0.85*m"
+
+
+
+	/>
+      <!--matrix 
+    name="BC2H4_RAY" 
+    coldim="2" 
+    values="1.55*eV             5000000.0*m
+                1.7714*eV           3000000.0*m
+                2.102*eV            1700000.0*m
+                2.255*eV            1000000.0*m
+                2.531*eV            620000.0*m
+                2.884*eV            420000.0*m
+                3.024*eV            300000.0*m
+                4.133*eV            70000.6*m
+                6.20*eV             0.85*m
+                10.33*eV            0.85*m
+                15.5*eV             0.85*m"
+         
+         
+         
+  /-->
+	<!-- ********** Rayleigh scattering length end ********** -->
+
+</define>
+
+
+
+
+<materials>
+
+
+
+	<material formula="bc2h4" name="BC2H4">
+		<property name="RINDEX" ref="BC2H4_RINDEX"/>
+		<property name="ABSLENGTH" ref="BC2H4_ABS"/>
+		<property name="RAYLEIGH" ref="BC2H4_RAY"/>
+		<D value="0.92"/>
+	    <fraction n="0.81428571" ref="Carbon"/>
+        <fraction n="0.13571429" ref="Hydrogen"/>
+        <fraction n="0.05" ref="Boron"/>
+
+    </material>
+
+
+</materials>
+

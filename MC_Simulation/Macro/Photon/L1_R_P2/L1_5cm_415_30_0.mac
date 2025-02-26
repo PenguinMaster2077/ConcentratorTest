@@ -1,0 +1,24 @@
+/run/verbose 1
+/event/verbose 0
+/tracking/verbose 0
+/random/setSeeds 6395570 68140546
+# 添加一个粒子源
+/gps/source/add 1
+# 释放光子
+/gps/particle opticalphoton
+# 粒子的能量
+/gps/energy 3 eV
+# 粒子源类型
+/gps/pos/type Surface
+/gps/pos/shape Sphere
+/gps/pos/radius 5.0 cm
+# 粒子源位置
+/gps/pos/centre -163 135.208 0.65 mm
+# 粒子的方向
+/gps/ang/type iso
+# 粒子的极化
+/gps/polarization 0 0 0 
+
+# 运行
+/run/printProgress 10000
+/run/beamOn 500000

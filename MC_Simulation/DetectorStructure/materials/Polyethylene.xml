@@ -1,0 +1,14 @@
+<materials>
+
+    <material formula="C2H4" name="Polyethylene">
+        <D value="0.962"/>
+        <fraction n="0.856" ref="Carbon"/>
+        <fraction n="0.144" ref="Hydrogen"/>
+    </material>
+    <material formula="C2H4B" name="Polyethylene_B">
+        <D value="0.962"/>
+        <fraction n="0.771" ref="Carbon"/>
+        <fraction n="0.129" ref="Hydrogen"/>
+        <fraction n="0.100" ref="Boron"/>
+    </material>
+</materials>
